@@ -8,6 +8,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.MaskFormatter;
 
+import com.telas.almoxarifado.Data.CampoBD;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -93,8 +95,9 @@ public class Tela_inicial {
 	private boolean isDesbloq4;
 	private JButton btnNewButton;
 	private JLabel lblNewLabel_2;
-	private final JLabel lblNewLabel_2_1 = new JLabel("JeanLm TI ©");
+	private final JLabel lblNewLabel_2_1 = new JLabel("CouTech©");
 	private JTextField textaplicacao;
+	
 
 	/**
 	 * Launch the application.
@@ -124,6 +127,7 @@ public class Tela_inicial {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		
 		frmTelaInicial = new JFrame();
 		frmTelaInicial.setBackground(Color.WHITE);
 		frmTelaInicial.setResizable(false);
@@ -136,37 +140,34 @@ public class Tela_inicial {
 		frmTelaInicial.setBounds(100, 100, 1200, 920);
 		frmTelaInicial.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-		
-
 		cod_nome = new JTextField("");
 		cod_nome.setBounds(617, 99, 197, 42);
 		cod_nome.addKeyListener(new KeyAdapter() {
-		    public void keyReleased(KeyEvent e) {
-		        String codigoDigitado = cod_nome.getText();
-		        if (codigoDigitado.isEmpty()) {
-		            lblNomeRequisitante.setText("Nome Requisitante");
-		        } else {
-		            boolean encontrou = false;
-		            String sql = "SELECT * FROM requisitantes WHERE matricula = ?";
-		            try (Connection connection = new DB_Connection().get_connection();
-		                 PreparedStatement statement = connection.prepareStatement(sql)) {
-		                statement.setString(1, codigoDigitado);
-		                ResultSet resultSet = statement.executeQuery();
-		                while (resultSet.next()) {
-		                    lblNomeRequisitante.setText(resultSet.getString("nome"));
-		                    encontrou = true;
-		                    break; // Encerra o loop assim que encontrar o código correspondente
-		                }
-		            } catch (SQLException ex) {
-		                System.out.println("Erro na leitura do banco de dados ...");
-		            }
-		            if (!encontrou) {
-		                lblNomeRequisitante.setText("Não cadastrado");
-		            }
-		        }
-		    }
+			public void keyReleased(KeyEvent e) {
+				String codigoDigitado = cod_nome.getText();
+				if (codigoDigitado.isEmpty()) {
+					lblNomeRequisitante.setText("Nome Requisitante");
+				} else {
+					boolean encontrou = false;
+					String sql = "SELECT * FROM requisitantes WHERE matricula = ?";
+					try (Connection connection = new DB_Connection().get_connection();
+							PreparedStatement statement = connection.prepareStatement(sql)) {
+						statement.setString(1, codigoDigitado);
+						ResultSet resultSet = statement.executeQuery();
+						while (resultSet.next()) {
+							lblNomeRequisitante.setText(resultSet.getString("nome"));
+							encontrou = true;
+							break; // Encerra o loop assim que encontrar o código correspondente
+						}
+					} catch (SQLException ex) {
+						System.out.println("Erro na leitura do banco de dados ...");
+					}
+					if (!encontrou) {
+						lblNomeRequisitante.setText("Não cadastrado");
+					}
+				}
+			}
 		});
-
 
 		cod_nome.setFont(new Font("Verdana", Font.PLAIN, 15));
 		cod_nome.setDropMode(DropMode.INSERT);
@@ -211,33 +212,33 @@ public class Tela_inicial {
 		codbarrasOUsku = new JTextField();
 		codbarrasOUsku.setBounds(617, 197, 197, 42);
 		codbarrasOUsku.addKeyListener(new KeyAdapter() {
-		    public void keyReleased(KeyEvent e) {
-		        String codigoDigitado = codbarrasOUsku.getText();
-		        if (codigoDigitado.isEmpty()) {
-		            lblcodbarras.setText("Cód. Barras/SKU");
-		            btnfinalizar.setEnabled(false);
-		        } else {
-		            boolean encontrou = false;
-		            String sql = "SELECT * FROM codigoproduto WHERE codproduto = ?";
-		            try (Connection connection = new DB_Connection().get_connection();
-		                 PreparedStatement statement = connection.prepareStatement(sql)) {
-		                statement.setString(1, codigoDigitado);
-		                ResultSet resultSet = statement.executeQuery();
-		                while (resultSet.next()) {
-		                    lblcodbarras.setText(resultSet.getString("nome"));
-		                    encontrou = true;
-		                    verificarVazio();
-		                    break; // Encerra o loop assim que encontrar o código correspondente
-		                }
-		            } catch (SQLException ex) {
-		                System.out.println("Erro na leitura do banco de dados ...");
-		            }
-		            if (!encontrou) {
-		                btnfinalizar.setEnabled(false);
-		                lblcodbarras.setText("Não cadastrado");
-		            }
-		        }
-		    }
+			public void keyReleased(KeyEvent e) {
+				String codigoDigitado = codbarrasOUsku.getText();
+				if (codigoDigitado.isEmpty()) {
+					lblcodbarras.setText("Cód. Barras/SKU");
+					btnfinalizar.setEnabled(false);
+				} else {
+					boolean encontrou = false;
+					String sql = "SELECT * FROM codigoproduto WHERE codproduto = ?";
+					try (Connection connection = new DB_Connection().get_connection();
+							PreparedStatement statement = connection.prepareStatement(sql)) {
+						statement.setString(1, codigoDigitado);
+						ResultSet resultSet = statement.executeQuery();
+						while (resultSet.next()) {
+							lblcodbarras.setText(resultSet.getString("nome"));
+							encontrou = true;
+							verificarVazio();
+							break; // Encerra o loop assim que encontrar o código correspondente
+						}
+					} catch (SQLException ex) {
+						System.out.println("Erro na leitura do banco de dados ...");
+					}
+					if (!encontrou) {
+						btnfinalizar.setEnabled(false);
+						lblcodbarras.setText("Não cadastrado");
+					}
+				}
+			}
 		});
 		codbarrasOUsku.setFont(new Font("Verdana", Font.PLAIN, 15));
 		codbarrasOUsku.setDropMode(DropMode.INSERT);
@@ -271,107 +272,105 @@ public class Tela_inicial {
 							|| !lblcodbarras.getText().equals("Não cadastrado")) {
 						String codnome = cod_nome.getText();
 						String nome = lblNomeRequisitante.getText();
-						String data = data1.getText();
 						Object tp = tipo.getSelectedItem();
 						String tpString = (String) tp;
 						String qt1 = qtd.getValue().toString();
 						String codbarrassku = codbarrasOUsku.getText(); // codigo do item
 						String barrasku = lblcodbarras.getText(); // nome do item
 						String app = textaplicacao.getText();
-						Data.gravarDados("RETIRADAEREPOSICAO1","codnome",codnome);
-						Data.gravarDados("RETIRADAEREPOSICAO1","nome",nome);
-						Data.gravarDados("RETIRADAEREPOSICAO1","tipo", tpString);
-						Data.gravarDados("RETIRADAEREPOSICAO1","qtd1", qt1);
-						Data.gravarDados("RETIRADAEREPOSICAO1","data1",data);
-						Data.gravarDados("RETIRADAEREPOSICAO1","codbarrassku",codbarrassku);
-						Data.gravarDados("RETIRADAEREPOSICAO1","barrassku",barrasku);
-						Data.gravarDados("RETIRADAEREPOSICAO1","app",app);
+						Date dataAtual = new Date();
+						// Formata a data para o formato 'yyyy-MM-dd'
+						SimpleDateFormat formatadorMySQL = new SimpleDateFormat("yyyy-MM-dd");
+						String dataFormatadaMySQL = formatadorMySQL.format(dataAtual);
+						Data.gravarDados("RETIRADAEREPOSICAO1", new CampoBD("codnome", codnome),
+								new CampoBD("nome", nome), new CampoBD("tipo", tpString), new CampoBD("qtd1", qt1),
+								new CampoBD("data", dataFormatadaMySQL), new CampoBD("codbarrassku1", codbarrassku),
+								new CampoBD("barrassku1", barrasku), new CampoBD("app", app));
 
 					}
 					if (isDesbloq1) {
 						String codnome = cod_nome.getText();
 						String nome = lblNomeRequisitante.getText();
-						String data = data1.getText();
 						Object tp = tipo.getSelectedItem();
 						String tpString = (String) tp;
 						String qt2 = qtd1.getValue().toString();
 						String codbarrassku1 = textField_1.getText(); // codigo do item
 						String barrasku1 = textField.getText(); // nome do item
 						String app = textaplicacao.getText();
+						Date dataAtual = new Date();
+						// Formata a data para o formato 'yyyy-MM-dd'
+						SimpleDateFormat formatadorMySQL = new SimpleDateFormat("yyyy-MM-dd");
+						String dataFormatadaMySQL = formatadorMySQL.format(dataAtual);
+						
+						Data.gravarDados("RETIRADAEREPOSICAO2", new CampoBD("codnome", codnome),
+								new CampoBD("nome", nome), new CampoBD("tipo", tpString), new CampoBD("qtd2", qt2),
+								new CampoBD("data", dataFormatadaMySQL), new CampoBD("codbarrassku2", codbarrassku1),
+								new CampoBD("barrassku2", barrasku1), new CampoBD("app", app));
 
-
-						Data.gravarDados("RETIRADAEREPOSICAO2","codnome",codnome);
-						Data.gravarDados("RETIRADAEREPOSICAO2","nome",nome);
-						Data.gravarDados("RETIRADAEREPOSICAO2","tipo", tpString);
-						Data.gravarDados("RETIRADAEREPOSICAO2","qtd2", qt2);
-						Data.gravarDados("RETIRADAEREPOSICAO2","data1",data);
-						Data.gravarDados("RETIRADAEREPOSICAO2","codbarrassku1",codbarrassku1);
-						Data.gravarDados("RETIRADAEREPOSICAO2","barrassku1",barrasku1);
-						Data.gravarDados("RETIRADAEREPOSICAO2","app",app);
 						isDesbloq1 = false;
 
 					}
 					if (isDesbloq2) {
 						String codnome = cod_nome.getText();
 						String nome = lblNomeRequisitante.getText();
-						String data = data1.getText();
 						Object tp = tipo.getSelectedItem();
 						String tpString = (String) tp;
 						String qt3 = qtd2.getValue().toString();
 						String codbarrassku2 = textField_3.getText(); // codigo do item
 						String barrasku2 = textField_2.getText(); // nome do item
 						String app = textaplicacao.getText();
+						Date dataAtual = new Date();
+						// Formata a data para o formato 'yyyy-MM-dd'
+						SimpleDateFormat formatadorMySQL = new SimpleDateFormat("yyyy-MM-dd");
+						String dataFormatadaMySQL = formatadorMySQL.format(dataAtual);
 						
-						Data.gravarDados("RETIRADAEREPOSICAO3","codnome",codnome);
-						Data.gravarDados("RETIRADAEREPOSICAO3","nome",nome);
-						Data.gravarDados("RETIRADAEREPOSICAO3","tipo", tpString);
-						Data.gravarDados("RETIRADAEREPOSICAO3","qtd3", qt3);
-						Data.gravarDados("RETIRADAEREPOSICAO3","data1",data);
-						Data.gravarDados("RETIRADAEREPOSICAO3","codbarrassku2",codbarrassku2);
-						Data.gravarDados("RETIRADAEREPOSICAO3","barrassku2",barrasku2);
-						Data.gravarDados("RETIRADAEREPOSICAO3","app",app);
+						Data.gravarDados("RETIRADAEREPOSICAO3", new CampoBD("codnome", codnome),
+								new CampoBD("nome", nome), new CampoBD("tipo", tpString), new CampoBD("qtd3", qt3),
+								new CampoBD("data", dataFormatadaMySQL), new CampoBD("codbarrassku3", codbarrassku2),
+								new CampoBD("barrassku3", barrasku2), new CampoBD("app", app));
+
 						isDesbloq2 = false;
 					}
 					if (isDesbloq3) {
 						String codnome = cod_nome.getText();
 						String nome = lblNomeRequisitante.getText();
-						String data = data1.getText();
 						Object tp = tipo.getSelectedItem();
 						String tpString = (String) tp;
 						String qt4 = qtd3.getValue().toString();
 						String codbarrassku3 = textField_5.getText(); // codigo do item
 						String barrasku3 = textField_4.getText(); // nome do item
 						String app = textaplicacao.getText();
+						Date dataAtual = new Date();
+						// Formata a data para o formato 'yyyy-MM-dd'
+						SimpleDateFormat formatadorMySQL = new SimpleDateFormat("yyyy-MM-dd");
+						String dataFormatadaMySQL = formatadorMySQL.format(dataAtual);
 						
-						Data.gravarDados("RETIRADAEREPOSICAO4","codnome",codnome);
-						Data.gravarDados("RETIRADAEREPOSICAO4","nome",nome);
-						Data.gravarDados("RETIRADAEREPOSICAO4","tipo", tpString);
-						Data.gravarDados("RETIRADAEREPOSICAO4","qtd4", qt4);
-						Data.gravarDados("RETIRADAEREPOSICAO4","data1",data);
-						Data.gravarDados("RETIRADAEREPOSICAO4","codbarrassku3",codbarrassku3);
-						Data.gravarDados("RETIRADAEREPOSICAO4","barrassku3",barrasku3);
-						Data.gravarDados("RETIRADAEREPOSICAO4","app",app);
+						Data.gravarDados("RETIRADAEREPOSICAO4", new CampoBD("codnome", codnome),
+								new CampoBD("nome", nome), new CampoBD("tipo", tpString), new CampoBD("qtd4", qt4),
+								new CampoBD("data", dataFormatadaMySQL), new CampoBD("codbarrassku4", codbarrassku3),
+								new CampoBD("barrassku4", barrasku3), new CampoBD("app", app));
+
 						isDesbloq3 = false;
 					}
 					if (isDesbloq4) {
 						String codnome = cod_nome.getText();
 						String nome = lblNomeRequisitante.getText();
-						String data = data1.getText();
 						Object tp = tipo.getSelectedItem();
 						String tpString = (String) tp;
 						String qt5 = qtd4.getValue().toString();
 						String codbarrassku4 = textField_7.getText(); // codigo do item
 						String barrasku4 = textField_6.getText(); // nome do item
 						String app = textaplicacao.getText();
+						Date dataAtual = new Date();
+						// Formata a data para o formato 'yyyy-MM-dd'
+						SimpleDateFormat formatadorMySQL = new SimpleDateFormat("yyyy-MM-dd");
+						String dataFormatadaMySQL = formatadorMySQL.format(dataAtual);
 						
-						Data.gravarDados("RETIRADAEREPOSICAO5","codnome",codnome);
-						Data.gravarDados("RETIRADAEREPOSICAO5","nome",nome);
-						Data.gravarDados("RETIRADAEREPOSICAO5","tipo", tpString);
-						Data.gravarDados("RETIRADAEREPOSICAO5","qtd5", qt5);
-						Data.gravarDados("RETIRADAEREPOSICAO5","data1",data);
-						Data.gravarDados("RETIRADAEREPOSICAO5","codbarrassku4",codbarrassku4);
-						Data.gravarDados("RETIRADAEREPOSICAO5","barrassku4",barrasku4);
-						Data.gravarDados("RETIRADAEREPOSICAO5","app",app);
+						Data.gravarDados("RETIRADAEREPOSICAO5", new CampoBD("codnome", codnome),
+								new CampoBD("nome", nome), new CampoBD("tipo", tpString), new CampoBD("qtd5", qt5),
+								new CampoBD("data", dataFormatadaMySQL), new CampoBD("codbarrassku5", codbarrassku4),
+								new CampoBD("barrassku5", barrasku4), new CampoBD("app", app));
+
 						isDesbloq4 = false;
 					}
 					bloqueartodos();
@@ -399,14 +398,16 @@ public class Tela_inicial {
 		btnHistrico.setBackground(Color.LIGHT_GRAY);
 		btnHistrico.setFont(new Font("Verdana", Font.PLAIN, 16));
 
-		Date dataatual = new Date();
-		SimpleDateFormat datA = new SimpleDateFormat("dd/MM/yyyy");
-		String datasistema = datA.format(dataatual);
+		Date dataAtual = new Date();
+		// Formata a data para o formato 'yyyy-MM-dd'
+		SimpleDateFormat formatadorMySQL = new SimpleDateFormat("yyyy-MM-dd");
+		
+		String dataFormatadaMySQL = formatadorMySQL.format(dataAtual);
 
 		// Declare a variável dat como final para que ela seja acessível dentro do Timer
 		final SimpleDateFormat dat = new SimpleDateFormat("dd/MM/yyyy");
-
-		data1 = new JFormattedTextField(datasistema);
+		System.out.println(dataFormatadaMySQL);
+		data1 = new JFormattedTextField(dat);
 		data1.setBounds(137, 17, 92, 30);
 		data1.setEnabled(false);
 		data1.setEditable(false);
@@ -436,33 +437,33 @@ public class Tela_inicial {
 		textField_1.setText("Desbloquei para digitar");
 		textField_1.setEnabled(false);
 		textField_1.addKeyListener(new KeyAdapter() {
-		    public void keyReleased(KeyEvent e) {
-		        String codigoDigitado = textField_1.getText();
-		        if (codigoDigitado.isEmpty()) {
-		            textField.setText("Cód. Barras/SKU");
-		            btnfinalizar.setEnabled(false);
-		        } else {
-		            boolean encontrou = false;
-		            String sql = "SELECT * FROM codigoproduto WHERE codproduto = ?";
-		            try (Connection connection = new DB_Connection().get_connection();
-		                 PreparedStatement statement = connection.prepareStatement(sql)) {
-		                statement.setString(1, codigoDigitado);
-		                ResultSet resultSet = statement.executeQuery();
-		                while (resultSet.next()) {
-		                    textField.setText(resultSet.getString("nome"));
-		                    encontrou = true;
-		                    verificarVazio();
-		                    break; // Encerra o loop assim que encontrar o código correspondente
-		                }
-		            } catch (SQLException ex) {
-		                System.out.println("Erro na leitura do banco de dados ...");
-		            }
-		            if (!encontrou) {
-		                btnfinalizar.setEnabled(false);
-		                textField.setText("Não cadastrado");
-		            }
-		        }
-		    }
+			public void keyReleased(KeyEvent e) {
+				String codigoDigitado = textField_1.getText();
+				if (codigoDigitado.isEmpty()) {
+					textField.setText("Cód. Barras/SKU");
+					btnfinalizar.setEnabled(false);
+				} else {
+					boolean encontrou = false;
+					String sql = "SELECT * FROM codigoproduto WHERE codproduto = ?";
+					try (Connection connection = new DB_Connection().get_connection();
+							PreparedStatement statement = connection.prepareStatement(sql)) {
+						statement.setString(1, codigoDigitado);
+						ResultSet resultSet = statement.executeQuery();
+						while (resultSet.next()) {
+							textField.setText(resultSet.getString("nome"));
+							encontrou = true;
+							verificarVazio();
+							break; // Encerra o loop assim que encontrar o código correspondente
+						}
+					} catch (SQLException ex) {
+						System.out.println("Erro na leitura do banco de dados ...");
+					}
+					if (!encontrou) {
+						btnfinalizar.setEnabled(false);
+						textField.setText("Não cadastrado");
+					}
+				}
+			}
 		});
 
 		textField_1.setFont(new Font("Verdana", Font.PLAIN, 15));
@@ -481,33 +482,33 @@ public class Tela_inicial {
 		textField_3.setText("Desbloquei para digitar");
 		textField_3.setEnabled(false);
 		textField_3.addKeyListener(new KeyAdapter() {
-		    public void keyReleased(KeyEvent e) {
-		        String codigoDigitado = textField_3.getText();
-		        if (codigoDigitado.isEmpty()) {
-		            textField_2.setText("Cód. Barras/SKU");
-		            btnfinalizar.setEnabled(false);
-		        } else {
-		            boolean encontrou = false;
-		            String sql = "SELECT * FROM codigoproduto WHERE codproduto = ?";
-		            try (Connection connection = new DB_Connection().get_connection();
-		                 PreparedStatement statement = connection.prepareStatement(sql)) {
-		                statement.setString(1, codigoDigitado);
-		                ResultSet resultSet = statement.executeQuery();
-		                while (resultSet.next()) {
-		                    textField_2.setText(resultSet.getString("nome"));
-		                    encontrou = true;
-		                    verificarVazio();
-		                    break; // Encerra o loop assim que encontrar o código correspondente
-		                }
-		            } catch (SQLException ex) {
-		                System.out.println("Erro na leitura do banco de dados ...");
-		            }
-		            if (!encontrou) {
-		                btnfinalizar.setEnabled(false);
-		                textField_2.setText("Não cadastrado");
-		            }
-		        }
-		    }
+			public void keyReleased(KeyEvent e) {
+				String codigoDigitado = textField_3.getText();
+				if (codigoDigitado.isEmpty()) {
+					textField_2.setText("Cód. Barras/SKU");
+					btnfinalizar.setEnabled(false);
+				} else {
+					boolean encontrou = false;
+					String sql = "SELECT * FROM codigoproduto WHERE codproduto = ?";
+					try (Connection connection = new DB_Connection().get_connection();
+							PreparedStatement statement = connection.prepareStatement(sql)) {
+						statement.setString(1, codigoDigitado);
+						ResultSet resultSet = statement.executeQuery();
+						while (resultSet.next()) {
+							textField_2.setText(resultSet.getString("nome"));
+							encontrou = true;
+							verificarVazio();
+							break; // Encerra o loop assim que encontrar o código correspondente
+						}
+					} catch (SQLException ex) {
+						System.out.println("Erro na leitura do banco de dados ...");
+					}
+					if (!encontrou) {
+						btnfinalizar.setEnabled(false);
+						textField_2.setText("Não cadastrado");
+					}
+				}
+			}
 		});
 		textField_3.setFont(new Font("Verdana", Font.PLAIN, 15));
 		textField_3.setDropMode(DropMode.INSERT);
@@ -536,33 +537,33 @@ public class Tela_inicial {
 		textField_5.setText("Desbloquei para digitar");
 		textField_5.setEnabled(false);
 		textField_5.addKeyListener(new KeyAdapter() {
-		    public void keyReleased(KeyEvent e) {
-		        String codigoDigitado = textField_5.getText();
-		        if (codigoDigitado.isEmpty()) {
-		            textField_4.setText("Cód. Barras/SKU");
-		            btnfinalizar.setEnabled(false);
-		        } else {
-		            boolean encontrou = false;
-		            String sql = "SELECT * FROM codigoproduto WHERE codproduto = ?";
-		            try (Connection connection = new DB_Connection().get_connection();
-		                 PreparedStatement statement = connection.prepareStatement(sql)) {
-		                statement.setString(1, codigoDigitado);
-		                ResultSet resultSet = statement.executeQuery();
-		                while (resultSet.next()) {
-		                    textField_4.setText(resultSet.getString("nome"));
-		                    encontrou = true;
-		                    verificarVazio();
-		                    break; // Encerra o loop assim que encontrar o código correspondente
-		                }
-		            } catch (SQLException ex) {
-		                System.out.println("Erro na leitura do banco de dados ...");
-		            }
-		            if (!encontrou) {
-		                btnfinalizar.setEnabled(false);
-		                textField_4.setText("Não cadastrado");
-		            }
-		        }
-		    }
+			public void keyReleased(KeyEvent e) {
+				String codigoDigitado = textField_5.getText();
+				if (codigoDigitado.isEmpty()) {
+					textField_4.setText("Cód. Barras/SKU");
+					btnfinalizar.setEnabled(false);
+				} else {
+					boolean encontrou = false;
+					String sql = "SELECT * FROM codigoproduto WHERE codproduto = ?";
+					try (Connection connection = new DB_Connection().get_connection();
+							PreparedStatement statement = connection.prepareStatement(sql)) {
+						statement.setString(1, codigoDigitado);
+						ResultSet resultSet = statement.executeQuery();
+						while (resultSet.next()) {
+							textField_4.setText(resultSet.getString("nome"));
+							encontrou = true;
+							verificarVazio();
+							break; // Encerra o loop assim que encontrar o código correspondente
+						}
+					} catch (SQLException ex) {
+						System.out.println("Erro na leitura do banco de dados ...");
+					}
+					if (!encontrou) {
+						btnfinalizar.setEnabled(false);
+						textField_4.setText("Não cadastrado");
+					}
+				}
+			}
 		});
 		textField_5.setFont(new Font("Verdana", Font.PLAIN, 15));
 		textField_5.setDropMode(DropMode.INSERT);
@@ -591,33 +592,33 @@ public class Tela_inicial {
 		textField_7.setText("Desbloquei para digitar");
 		textField_7.setEnabled(false);
 		textField_7.addKeyListener(new KeyAdapter() {
-		    public void keyReleased(KeyEvent e) {
-		        String codigoDigitado = textField_7.getText();
-		        if (codigoDigitado.isEmpty()) {
-		            textField_6.setText("Cód. Barras/SKU");
-		            btnfinalizar.setEnabled(false);
-		        } else {
-		            boolean encontrou = false;
-		            String sql = "SELECT * FROM codigoproduto WHERE codproduto = ?";
-		            try (Connection connection = new DB_Connection().get_connection();
-		                 PreparedStatement statement = connection.prepareStatement(sql)) {
-		                statement.setString(1, codigoDigitado);
-		                ResultSet resultSet = statement.executeQuery();
-		                while (resultSet.next()) {
-		                    textField_6.setText(resultSet.getString("nome"));
-		                    encontrou = true;
-		                    verificarVazio();
-		                    break; // Encerra o loop assim que encontrar o código correspondente
-		                }
-		            } catch (SQLException ex) {
-		                System.out.println("Erro na leitura do banco de dados ...");
-		            }
-		            if (!encontrou) {
-		                btnfinalizar.setEnabled(false);
-		                textField_6.setText("Não cadastrado");
-		            }
-		        }
-		    }
+			public void keyReleased(KeyEvent e) {
+				String codigoDigitado = textField_7.getText();
+				if (codigoDigitado.isEmpty()) {
+					textField_6.setText("Cód. Barras/SKU");
+					btnfinalizar.setEnabled(false);
+				} else {
+					boolean encontrou = false;
+					String sql = "SELECT * FROM codigoproduto WHERE codproduto = ?";
+					try (Connection connection = new DB_Connection().get_connection();
+							PreparedStatement statement = connection.prepareStatement(sql)) {
+						statement.setString(1, codigoDigitado);
+						ResultSet resultSet = statement.executeQuery();
+						while (resultSet.next()) {
+							textField_6.setText(resultSet.getString("nome"));
+							encontrou = true;
+							verificarVazio();
+							break; // Encerra o loop assim que encontrar o código correspondente
+						}
+					} catch (SQLException ex) {
+						System.out.println("Erro na leitura do banco de dados ...");
+					}
+					if (!encontrou) {
+						btnfinalizar.setEnabled(false);
+						textField_6.setText("Não cadastrado");
+					}
+				}
+			}
 		});
 		textField_7.setFont(new Font("Verdana", Font.PLAIN, 15));
 		textField_7.setDropMode(DropMode.INSERT);
@@ -804,19 +805,19 @@ public class Tela_inicial {
 		btnNewButton.setBounds(10, 197, 189, 52);
 		frmTelaInicial.getContentPane().add(btnNewButton);
 
-		JLabel lblNewLabel = new JLabel("JeanLm TI ©");
+		JLabel lblNewLabel = new JLabel("CouTech ©");
 		lblNewLabel.setFont(new Font("Dialog", Font.ITALIC, 14));
 		lblNewLabel.setBounds(247, 12, 102, 24);
 		frmTelaInicial.getContentPane().add(lblNewLabel);
 
-		JLabel lblNewLabel_1 = new JLabel("");
-		lblNewLabel_1.setIcon(new ImageIcon("src/img/logo_elis.png"));
-		lblNewLabel_1.setBounds(12, 709, 249, 128);
-		frmTelaInicial.getContentPane().add(lblNewLabel_1);
+		JLabel logo = new JLabel("");
+		logo.setIcon(new ImageIcon("src/img/logoCoutech.png"));
+		logo.setBounds(20, 573, 350, 255);
+		frmTelaInicial.getContentPane().add(logo);
 
-		lblNewLabel_2 = new JLabel("JeanLm TI ©");
+		lblNewLabel_2 = new JLabel("CouTech ©");
 		lblNewLabel_2.setFont(new Font("Dialog", Font.ITALIC, 14));
-		lblNewLabel_2.setBounds(10, 582, 102, 24);
+		lblNewLabel_2.setBounds(10, 521, 102, 24);
 		frmTelaInicial.getContentPane().add(lblNewLabel_2);
 		lblNewLabel_2_1.setBounds(1316, 770, 109, 36);
 		frmTelaInicial.getContentPane().add(lblNewLabel_2_1);

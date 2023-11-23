@@ -138,12 +138,12 @@ public class Login extends JFrame {
 			}
 		});
 		entrar.setFont(new Font("Verdana", Font.BOLD, 13));
-		entrar.setForeground(SystemColor.desktop);
+		entrar.setForeground(Color.WHITE);
 		entrar.setBackground(new Color(135, 206, 250));
 		entrar.setBounds(206, 226, 94, 38);
 		contentPane.add(entrar);
 		
-		lblNewLabel_2 = new JLabel("Jean Lima TI ©");
+		lblNewLabel_2 = new JLabel("CouTech ©");
 		lblNewLabel_2.setBackground(Color.LIGHT_GRAY);
 		lblNewLabel_2.setFont(new Font("Verdana", Font.ITALIC, 12));
 		lblNewLabel_2.setBounds(10, 281, 105, 13);

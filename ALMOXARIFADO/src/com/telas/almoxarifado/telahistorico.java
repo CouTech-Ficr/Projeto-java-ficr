@@ -67,7 +67,7 @@ public class telahistorico extends JFrame {
 		@Override
 
 		public void windowOpened(WindowEvent e) {
-		    String[] column = { "Cód.Req", "Nome Requisitante", "Tipo", "Quantidade", "Data", "Cód.Barras/Sku", "Item", "Aplicação"};
+		    String[] column = { "id","Cód.Req", "Nome Requisitante", "Tipo", "Quantidade", "Data", "Cód.Barras/Sku", "Item", "Aplicação","id_table"};
 		    ArrayList<String[]> dados = Data.lerDados("retiradaereposicao1", "retiradaereposicao2", "retiradaereposicao3", "retiradaereposicao4", "retiradaereposicao5");
 		    DefaultTableModel model = (DefaultTableModel) historicotable.getModel();
 		    model.setColumnIdentifiers(column);
@@ -178,11 +178,12 @@ public class telahistorico extends JFrame {
 		contentPane.add(lblTipo);
 		
 		JLabel lblNewLabel_1 = new JLabel("");
-		lblNewLabel_1.setIcon(new ImageIcon("src/img/logo_elis.png"));
-		lblNewLabel_1.setBounds(385, 10, 222, 88);
+		lblNewLabel_1.setIcon(new ImageIcon("src/img/logosecundaria.png"));
+		lblNewLabel_1.setBounds(328, 10, 379, 88);
 		contentPane.add(lblNewLabel_1);
 		
-		lblNewLabel_2 = new JLabel("JeanLm TI ©");
+		lblNewLabel_2 = new JLabel("CouTech ©");
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		lblNewLabel_2.setBounds(904, 10, 79, 20);
 		contentPane.add(lblNewLabel_2);
 		
@@ -195,31 +196,40 @@ public class telahistorico extends JFrame {
 	public void apagando() {
 	    int index = historicotable.getSelectedRow();
 	    if (index >= 0) {
-	        String id = historicotable.getValueAt(index, 0).toString(); // Supondo que o ID esteja na primeira coluna
-	        Data.deletarDados("retiradaereposicao1", "codnome = " + id); // Substitua "codnome" pelo nome da coluna que você deseja usar como condição
+	    	 String idTable = historicotable.getValueAt(index, 9).toString(); // Índice 9 para "id_table"
+	         String id = historicotable.getValueAt(index, 0).toString(); // Índice 0 para "id"
+	
+	        String condicaoIdTable = "id_table = " + idTable;
+            String condicaoId = "id_pk = " + id;
+	        Data.deletarDados("retiradaereposicao1",condicaoIdTable,condicaoId);
+	        Data.deletarDados("retiradaereposicao2",condicaoIdTable,condicaoId);
+	        Data.deletarDados("retiradaereposicao3",condicaoIdTable,condicaoId);
+	        Data.deletarDados("retiradaereposicao4",condicaoIdTable,condicaoId);
+	        Data.deletarDados("retiradaereposicao5",condicaoIdTable,condicaoId);
+	    
 	    }
 	}
 
 	private void filtrarTabela() {
-        TableRowSorter<DefaultTableModel> rowSorter = new TableRowSorter<>(model);
-        historicotable.setRowSorter(rowSorter);
+	    TableRowSorter<DefaultTableModel> rowSorter = new TableRowSorter<>(model);
+	    historicotable.setRowSorter(rowSorter);
 
-        String textoFiltro = filtrocod.getText();
-        if (textoFiltro.trim().length() == 4) {
-            rowSorter.setRowFilter(null); // Remove o filtro se o campo de filtro estiver vazio
-        } else {
-            rowSorter.setRowFilter(RowFilter.regexFilter(textoFiltro, 4)); // Filtra pelo código
-        }
-    }
-	 private void filtrarTabelaCombobox() {
-	        TableRowSorter<DefaultTableModel> rowSorter = new TableRowSorter<>(model);
-	        historicotable.setRowSorter(rowSorter);
-
-	        int selectedIndex = filtrotipo.getSelectedIndex();
-	        if (selectedIndex == 0) {
-	            rowSorter.setRowFilter(null); // Remove o filtro se "Todos" for selecionado
-	        } else {
-	            rowSorter.setRowFilter(RowFilter.regexFilter(filtrotipo.getSelectedItem().toString(), 6));
-	        }
+	    String textoFiltro = filtrocod.getText();
+	    if (textoFiltro.trim().length() == 6) {
+	        rowSorter.setRowFilter(null); // Remove o filtro se o campo de filtro estiver vazio
+	    } else {
+	        rowSorter.setRowFilter(RowFilter.regexFilter(textoFiltro, 6)); // Filtra pelo código (coluna 6)
 	    }
+	}
+	private void filtrarTabelaCombobox() {
+	    TableRowSorter<DefaultTableModel> rowSorter = new TableRowSorter<>(model);
+	    historicotable.setRowSorter(rowSorter);
+
+	    int selectedIndex = filtrotipo.getSelectedIndex();
+	    if (selectedIndex == 0) {
+	        rowSorter.setRowFilter(null); // Remove o filtro se "Todos" for selecionado
+	    } else {
+	        rowSorter.setRowFilter(RowFilter.regexFilter(filtrotipo.getSelectedItem().toString(), 3)); // Filtra pelo tipo (coluna 3)
+	    }
+	}
 }
