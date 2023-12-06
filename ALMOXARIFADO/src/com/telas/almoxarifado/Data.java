@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 public class Data {
@@ -84,11 +85,12 @@ public class Data {
 						lista.add(linha);
 					}
 				} catch (SQLException e) {
-					System.out.println("Erro na leitura do banco de dados ...");
+					JOptionPane.showMessageDialog(null,"Erro na leitura do banco de dados");
 				}
 			}
 		} catch (SQLException e) {
-			System.out.println("Erro na conexão com o banco de dados ...");
+			JOptionPane.showMessageDialog(null, "Erro ao de conexão com o banco de dados");
+			
 		}
 
 		return lista;
