@@ -1,32 +1,12 @@
 package com.telas.almoxarifado;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JTextField;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.text.MaskFormatter;
-
-import com.telas.almoxarifado.Data.CampoBD;
-
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import java.awt.Font;
-import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DropMode;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.Timer;
-import javax.swing.JButton;
-
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.SystemColor;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -36,24 +16,26 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.awt.event.ActionEvent;
-import java.awt.Dimension;
-import java.awt.Toolkit;
-import javax.swing.SpinnerModel;
-import javax.swing.JTabbedPane;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JPanel;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JTextPane;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DropMode;
 import javax.swing.ImageIcon;
-import javax.swing.JTextArea;
-import javax.swing.JScrollBar;
-import javax.swing.JList;
-import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.Timer;
+import javax.swing.table.DefaultTableModel;
+
+import com.connections.almoxarifado.DB_Connection;
+import com.connections.almoxarifado.Data;
+import com.connections.almoxarifado.Data.CampoBD;
+import com.connections.almoxarifado.HistoricoLoginDAO;
 
 public class Tela_inicial {
 
@@ -95,8 +77,10 @@ public class Tela_inicial {
 	private boolean isDesbloq4;
 	private JButton btnNewButton;
 	private JLabel lblNewLabel_2;
-	private final JLabel lblNewLabel_2_1 = new JLabel("CouTech©");
+	private final JLabel lblNewLabel_2_1 = new JLabel("ProSync Innovations ©");
 	private JTextField textaplicacao;
+	private JTextField login;
+	private JButton btnsair;
 	
 
 	/**
@@ -106,7 +90,7 @@ public class Tela_inicial {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Tela_inicial window = new Tela_inicial();
+					Tela_inicial window = new Tela_inicial(null, null);
 					window.frmTelaInicial.setVisible(true);
 
 				} catch (Exception e) {
@@ -119,25 +103,37 @@ public class Tela_inicial {
 	/**
 	 * Create the application.
 	 */
-	public Tela_inicial() {
-		initialize();
-	}
-
+	 public Tela_inicial(String nomeUsuario, String matricula) {
+	        initialize(nomeUsuario, matricula);
+	    }
+	 
+	 public void inicializarTela(String nomeUsuario, String matricula) {
+		    EventQueue.invokeLater(new Runnable() {
+		        public void run() {
+		            try {
+		                Tela_inicial window = new Tela_inicial(nomeUsuario, matricula);
+		                window.frmTelaInicial.setVisible(true);
+		            } catch (Exception e) {
+		                e.printStackTrace();
+		            }
+		        }
+		    });
+		}
 	/**
 	 * Initialize the contents of the frame.
+	 * @param nomeUsuario 
 	 */
-	private void initialize() {
+	private void initialize(String nomeUsuario, String matricula) {
 		
 		frmTelaInicial = new JFrame();
 		frmTelaInicial.setBackground(Color.WHITE);
-		frmTelaInicial.setResizable(false);
+		frmTelaInicial.setResizable(true);
 		frmTelaInicial.setTitle("Tela Inicial");
 		frmTelaInicial.setOpacity(1.0f);
 		frmTelaInicial.setFont(new Font("Verdana", Font.PLAIN, 15));
-		frmTelaInicial.setIconImage(Toolkit.getDefaultToolkit().getImage("src/img/caixa-de-entrega.ico"));
 		frmTelaInicial.getContentPane().setBackground(SystemColor.window);
 		frmTelaInicial.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmTelaInicial.setBounds(100, 100, 1200, 920);
+		frmTelaInicial.setBounds(0, 0, 1680, 1050 );
 		frmTelaInicial.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
 		cod_nome = new JTextField("");
@@ -219,13 +215,13 @@ public class Tela_inicial {
 					btnfinalizar.setEnabled(false);
 				} else {
 					boolean encontrou = false;
-					String sql = "SELECT * FROM codigoproduto WHERE codproduto = ?";
+					String sql = "SELECT * FROM codigoproduto WHERE ? IN (sku, ean)";
 					try (Connection connection = new DB_Connection().get_connection();
 							PreparedStatement statement = connection.prepareStatement(sql)) {
 						statement.setString(1, codigoDigitado);
 						ResultSet resultSet = statement.executeQuery();
 						while (resultSet.next()) {
-							lblcodbarras.setText(resultSet.getString("nome"));
+							lblcodbarras.setText(resultSet.getString("nomeprod"));
 							encontrou = true;
 							verificarVazio();
 							break; // Encerra o loop assim que encontrar o código correspondente
@@ -384,10 +380,10 @@ public class Tela_inicial {
 		});
 		btnfinalizar.setBackground(new Color(135, 206, 250));
 		btnfinalizar.setForeground(new Color(255, 255, 255));
-		btnfinalizar.setFont(new Font("Verdana", Font.BOLD, 18));
+		btnfinalizar.setFont(new Font("Microsoft JhengHei Light", Font.BOLD, 18));
 
 		JButton btnHistrico = new JButton("Histórico");
-		btnHistrico.setBounds(10, 10, 115, 42);
+		btnHistrico.setBounds(10, 413, 189, 52);
 		btnHistrico.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Login login = new Login();
@@ -396,7 +392,7 @@ public class Tela_inicial {
 		});
 		btnHistrico.setForeground(Color.BLACK);
 		btnHistrico.setBackground(Color.LIGHT_GRAY);
-		btnHistrico.setFont(new Font("Verdana", Font.PLAIN, 16));
+		btnHistrico.setFont(new Font("Microsoft JhengHei", Font.BOLD, 12));
 
 		Date dataAtual = new Date();
 		// Formata a data para o formato 'yyyy-MM-dd'
@@ -406,9 +402,9 @@ public class Tela_inicial {
 
 		// Declare a variável dat como final para que ela seja acessível dentro do Timer
 		final SimpleDateFormat dat = new SimpleDateFormat("dd/MM/yyyy");
-		System.out.println(dataFormatadaMySQL);
+		
 		data1 = new JFormattedTextField(dat);
-		data1.setBounds(137, 17, 92, 30);
+		data1.setBounds(10, 479, 92, 30);
 		data1.setEnabled(false);
 		data1.setEditable(false);
 		data1.setFont(new Font("Verdana", Font.PLAIN, 14));
@@ -444,13 +440,13 @@ public class Tela_inicial {
 					btnfinalizar.setEnabled(false);
 				} else {
 					boolean encontrou = false;
-					String sql = "SELECT * FROM codigoproduto WHERE codproduto = ?";
+					String sql = "SELECT * FROM codigoproduto WHERE ? IN (sku, ean)";
 					try (Connection connection = new DB_Connection().get_connection();
 							PreparedStatement statement = connection.prepareStatement(sql)) {
 						statement.setString(1, codigoDigitado);
 						ResultSet resultSet = statement.executeQuery();
 						while (resultSet.next()) {
-							textField.setText(resultSet.getString("nome"));
+							textField.setText(resultSet.getString("nomeprod"));
 							encontrou = true;
 							verificarVazio();
 							break; // Encerra o loop assim que encontrar o código correspondente
@@ -489,13 +485,13 @@ public class Tela_inicial {
 					btnfinalizar.setEnabled(false);
 				} else {
 					boolean encontrou = false;
-					String sql = "SELECT * FROM codigoproduto WHERE codproduto = ?";
+					String sql = "SELECT * FROM codigoproduto WHERE ? IN (sku, ean)";
 					try (Connection connection = new DB_Connection().get_connection();
 							PreparedStatement statement = connection.prepareStatement(sql)) {
 						statement.setString(1, codigoDigitado);
 						ResultSet resultSet = statement.executeQuery();
 						while (resultSet.next()) {
-							textField_2.setText(resultSet.getString("nome"));
+							textField_2.setText(resultSet.getString("nomeprod"));
 							encontrou = true;
 							verificarVazio();
 							break; // Encerra o loop assim que encontrar o código correspondente
@@ -544,13 +540,13 @@ public class Tela_inicial {
 					btnfinalizar.setEnabled(false);
 				} else {
 					boolean encontrou = false;
-					String sql = "SELECT * FROM codigoproduto WHERE codproduto = ?";
+					String sql = "SELECT * FROM codigoproduto WHERE ? IN (sku, ean)";
 					try (Connection connection = new DB_Connection().get_connection();
 							PreparedStatement statement = connection.prepareStatement(sql)) {
 						statement.setString(1, codigoDigitado);
 						ResultSet resultSet = statement.executeQuery();
 						while (resultSet.next()) {
-							textField_4.setText(resultSet.getString("nome"));
+							textField_4.setText(resultSet.getString("nomeprod"));
 							encontrou = true;
 							verificarVazio();
 							break; // Encerra o loop assim que encontrar o código correspondente
@@ -599,13 +595,13 @@ public class Tela_inicial {
 					btnfinalizar.setEnabled(false);
 				} else {
 					boolean encontrou = false;
-					String sql = "SELECT * FROM codigoproduto WHERE codproduto = ?";
+					String sql = "SELECT * FROM codigoproduto WHERE ? IN (sku, ean)";
 					try (Connection connection = new DB_Connection().get_connection();
 							PreparedStatement statement = connection.prepareStatement(sql)) {
 						statement.setString(1, codigoDigitado);
 						ResultSet resultSet = statement.executeQuery();
 						while (resultSet.next()) {
-							textField_6.setText(resultSet.getString("nome"));
+							textField_6.setText(resultSet.getString("nomeprod"));
 							encontrou = true;
 							verificarVazio();
 							break; // Encerra o loop assim que encontrar o código correspondente
@@ -773,9 +769,9 @@ public class Tela_inicial {
 		});
 		btnlimpar.setIcon(new ImageIcon("src/img/vassoura.png"));
 		btnlimpar.setForeground(Color.WHITE);
-		btnlimpar.setFont(new Font("Verdana", Font.BOLD, 12));
+		btnlimpar.setFont(new Font("Microsoft JhengHei", Font.BOLD, 12));
 		btnlimpar.setBackground(new Color(112, 128, 144));
-		btnlimpar.setBounds(10, 83, 189, 42);
+		btnlimpar.setBounds(10, 83, 189, 52);
 		frmTelaInicial.getContentPane().add(btnlimpar);
 
 		btnDesbloquear = new JButton("Desbloquear todos");
@@ -786,40 +782,40 @@ public class Tela_inicial {
 
 			}
 		});
-		btnDesbloquear.setForeground(new Color(0, 0, 0));
-		btnDesbloquear.setFont(new Font("Verdana", Font.BOLD, 12));
-		btnDesbloquear.setBackground(new Color(135, 206, 250));
-		btnDesbloquear.setBounds(10, 137, 189, 52);
+		btnDesbloquear.setForeground(Color.WHITE);
+		btnDesbloquear.setFont(new Font("Microsoft JhengHei", Font.BOLD, 12));
+		btnDesbloquear.setBackground(new Color(50, 205, 50));
+		btnDesbloquear.setBounds(10, 276, 189, 52);
 		frmTelaInicial.getContentPane().add(btnDesbloquear);
 
 		btnNewButton = new JButton("Bloquear todos");
 		btnNewButton.setIcon(new ImageIcon("src/img/cadeado.png"));
-		btnNewButton.setFont(new Font("Verdana", Font.BOLD, 12));
+		btnNewButton.setFont(new Font("Microsoft JhengHei", Font.BOLD, 12));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				bloqueartodos();
 			}
 		});
-		btnNewButton.setBackground(new Color(135, 206, 250));
-		btnNewButton.setForeground(new Color(0, 0, 0));
-		btnNewButton.setBounds(10, 197, 189, 52);
+		btnNewButton.setBackground(new Color(255, 0, 0));
+		btnNewButton.setForeground(new Color(255, 255, 255));
+		btnNewButton.setBounds(10, 345, 189, 52);
 		frmTelaInicial.getContentPane().add(btnNewButton);
 
-		JLabel lblNewLabel = new JLabel("CouTech ©");
+		JLabel lblNewLabel = new JLabel("ProSync Innovations ©");
 		lblNewLabel.setFont(new Font("Dialog", Font.ITALIC, 14));
-		lblNewLabel.setBounds(247, 12, 102, 24);
+		lblNewLabel.setBounds(329, 18, 173, 24);
 		frmTelaInicial.getContentPane().add(lblNewLabel);
 
 		JLabel logo = new JLabel("");
-		logo.setIcon(new ImageIcon("src/img/logoCoutech.png"));
+		logo.setIcon(new ImageIcon("src/img/sualogo.png"));
 		logo.setBounds(20, 573, 350, 255);
 		frmTelaInicial.getContentPane().add(logo);
 
-		lblNewLabel_2 = new JLabel("CouTech ©");
+		lblNewLabel_2 = new JLabel("ProSync Innovations ©");
 		lblNewLabel_2.setFont(new Font("Dialog", Font.ITALIC, 14));
-		lblNewLabel_2.setBounds(10, 521, 102, 24);
+		lblNewLabel_2.setBounds(10, 521, 153, 24);
 		frmTelaInicial.getContentPane().add(lblNewLabel_2);
-		lblNewLabel_2_1.setBounds(1316, 770, 109, 36);
+		lblNewLabel_2_1.setBounds(1316, 770, 173, 36);
 		frmTelaInicial.getContentPane().add(lblNewLabel_2_1);
 		lblNewLabel_2_1.setFont(new Font("Dialog", Font.ITALIC, 14));
 
@@ -833,6 +829,70 @@ public class Tela_inicial {
 		textaplicacao.setBounds(401, 100, 197, 42);
 		frmTelaInicial.getContentPane().add(textaplicacao);
 		textaplicacao.setColumns(10);
+		
+		JButton btncadcolaborador = new JButton("Novo Colaborador");
+		btncadcolaborador.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new Login2().setVisible(true);
+			}
+		});
+		btncadcolaborador.setForeground(Color.BLACK);
+		btncadcolaborador.setFont(new Font("Microsoft JhengHei", Font.BOLD, 12));
+		btncadcolaborador.setBackground(new Color(135, 206, 250));
+		btncadcolaborador.setBounds(10, 145, 189, 52);
+		frmTelaInicial.getContentPane().add(btncadcolaborador);
+		
+		JButton btncadprodut = new JButton("Novo Porduto");
+		btncadprodut.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new Login3().setVisible(true);
+			}
+		});
+		btncadprodut.setForeground(Color.BLACK);
+		btncadprodut.setFont(new Font("Microsoft JhengHei", Font.BOLD, 12));
+		btncadprodut.setBackground(new Color(135, 206, 250));
+		btncadprodut.setBounds(10, 208, 189, 52);
+		frmTelaInicial.getContentPane().add(btncadprodut);
+		
+		login = new JTextField(nomeUsuario);
+		login.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 12));
+		login.setEnabled(false);
+		login.setEditable(false);
+		login.setBounds(12, 12, 173, 30);
+		frmTelaInicial.getContentPane().add(login);
+		login.setColumns(10);
+		
+		btnsair = new JButton("Sair");
+		btnsair.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				 try (Connection connection = DB_Connection.get_connection()) {
+			           
+					 switch (JOptionPane.showConfirmDialog(null, "Deseja sair ?", "Desconecta-se",
+								JOptionPane.YES_NO_OPTION)) {
+						case 0:
+							// Registra o logoff ao clicar em "Sair"
+						 	HistoricoLoginDAO.registrarLogoff(connection, matricula);
+				            // Fecha a janela
+				            frmTelaInicial.dispose();
+				            new Tela_Login_Inicial().setVisible(true);
+
+						case 1:
+							return;
+
+						}
+					 
+					 
+
+			        } catch (SQLException ex) {
+			            ex.printStackTrace();
+			        }
+			}
+		});
+		btnsair.setForeground(Color.WHITE);
+		btnsair.setBackground(Color.RED);
+		btnsair.setFont(new Font("Microsoft YaHei", Font.BOLD, 12));
+		btnsair.setBounds(189, 11, 60, 30);
+		frmTelaInicial.getContentPane().add(btnsair);
 
 		Timer timer2 = new Timer(1000, new ActionListener() {
 			Date dataAtual = new Date();

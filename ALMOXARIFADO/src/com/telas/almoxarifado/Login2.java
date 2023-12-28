@@ -24,7 +24,7 @@ import com.connections.almoxarifado.DB_Connection;
 import com.connections.almoxarifado.Data;
 import com.connections.almoxarifado.HistoricoLoginDAO;
 
-public class Login extends JFrame {
+public class Login2 extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField login;
@@ -37,7 +37,6 @@ public class Login extends JFrame {
 	private JLabel lblNewLabel_2;
 	private JButton entrar;
 	private JButton visiblepass;
-
 	/**
 	 * Launch the application.
 	 */
@@ -45,7 +44,7 @@ public class Login extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Login frame = new Login();
+					Login2 frame = new Login2();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -53,15 +52,15 @@ public class Login extends JFrame {
 			}
 		});
 	}
-
+	
 	/**
 	 * Create the frame.
 	 */
-	public Login() {
+	public Login2() {
 		setType(Type.UTILITY);
 		setResizable(false);
-
-		setTitle("Desbloquear Histórico");
+		
+		setTitle("Desbloquear Cadastro de colaborador");
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 512, 357);
 		contentPane = new JPanel();
@@ -72,7 +71,6 @@ public class Login extends JFrame {
 		contentPane.setLayout(null);
 
 		login = new JTextField();
-		login.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 13));
 		login.setEnabled(true);
 		login.setText("");
 		login.setEditable(true);
@@ -85,6 +83,7 @@ public class Login extends JFrame {
 		senha.setFont(new Font("Dialog", Font.PLAIN, 17));
 		senha.setEchoChar('\u25cf');
 		senha.addKeyListener(new KeyAdapter() {
+			
 
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -99,7 +98,7 @@ public class Login extends JFrame {
 						if (nomeUsuario != null) {
 							// Autenticação bem-sucedida
 							dispose();
-							new telahistorico().inicializarTela();
+							new Cad_Colaborador().setVisible(true);
 
 						} else {
 							// Autenticação falhou
@@ -111,7 +110,7 @@ public class Login extends JFrame {
 					} catch (SQLException ex) {
 						ex.printStackTrace();
 					}
-
+			    
 				}
 			}
 		});
@@ -131,8 +130,8 @@ public class Login extends JFrame {
 		// botao de logar com tratamento caso de senha incorreta
 		entrar = new JButton("LOGIN");
 		entrar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String matricula = login.getText();
+		    public void actionPerformed(ActionEvent e) {
+		    	String matricula = login.getText();
 				char[] senhaChars = senha.getPassword();
 				String senha = new String(senhaChars);
 
@@ -142,11 +141,11 @@ public class Login extends JFrame {
 					if (nomeUsuario != null) {
 						// Autenticação bem-sucedida
 						dispose();
-						new telahistorico().inicializarTela();
+						new Cad_Colaborador().setVisible(true);
 
 					} else {
 						// Autenticação falhou
-						JOptionPane.showMessageDialog(null, "Matrícula ou senha inválidas","Atenção",JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Matrícula ou senha inválidas");
 					}
 
 					// Limpar o array de caracteres da senha após o uso
@@ -154,7 +153,7 @@ public class Login extends JFrame {
 				} catch (SQLException ex) {
 					ex.printStackTrace();
 				}
-			}
+		    }
 		});
 
 		entrar.setFont(new Font("Microsoft YaHei", Font.BOLD, 13));
@@ -162,34 +161,34 @@ public class Login extends JFrame {
 		entrar.setBackground(new Color(135, 206, 250));
 		entrar.setBounds(206, 226, 94, 38);
 		contentPane.add(entrar);
-
+		
 		lblNewLabel_2 = new JLabel("ProSync Innovations ©");
 		lblNewLabel_2.setBackground(Color.LIGHT_GRAY);
 		lblNewLabel_2.setFont(new Font("Verdana", Font.ITALIC, 12));
 		lblNewLabel_2.setBounds(10, 281, 166, 13);
 		contentPane.add(lblNewLabel_2);
-
+		
 		visiblepass = new JButton("");
 		visiblepass.setBackground(Color.WHITE);
 		visiblepass.setIcon(new ImageIcon("src/img/view.png"));
 		visiblepass.addActionListener(new ActionListener() {
 			private boolean passwordVisible = false;
-
 			public void actionPerformed(ActionEvent e) {
 				passwordVisible = !passwordVisible;
-				if (passwordVisible) {
-					senha.setEchoChar((char) 0); // Mostrar a senha
-					visiblepass.setIcon(new ImageIcon("src/img/hide.png"));
-				} else {
-					senha.setEchoChar('\u25cf'); // Esconder a senha
-					visiblepass.setIcon(new ImageIcon("src/img/view.png"));
-				}
-
+                if (passwordVisible) {
+                    senha.setEchoChar((char) 0); // Mostrar a senha
+                    visiblepass.setIcon(new ImageIcon("src/img/hide.png"));
+                } else {
+                    senha.setEchoChar('\u25cf'); // Esconder a senha
+                    visiblepass.setIcon(new ImageIcon("src/img/view.png"));
+                }
+				
 			}
 		});
 		visiblepass.setBounds(366, 152, 32, 36);
 		contentPane.add(visiblepass);
 
+		
 		// telacentralizada
 		initComplementos();
 
