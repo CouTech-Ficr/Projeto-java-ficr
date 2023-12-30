@@ -17,17 +17,20 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.swing.AbstractAction;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DropMode;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
@@ -36,6 +39,7 @@ import com.connections.almoxarifado.DB_Connection;
 import com.connections.almoxarifado.Data;
 import com.connections.almoxarifado.Data.CampoBD;
 import com.connections.almoxarifado.HistoricoLoginDAO;
+import javax.swing.SwingConstants;
 
 public class Tela_inicial {
 
@@ -77,11 +81,11 @@ public class Tela_inicial {
 	private boolean isDesbloq4;
 	private JButton btnNewButton;
 	private JLabel lblNewLabel_2;
-	private final JLabel lblNewLabel_2_1 = new JLabel("ProSync Innovations ©");
 	private JTextField textaplicacao;
 	private JTextField login;
 	private JButton btnsair;
-	
+	private String copy = "JeanLM TI ©";
+	private JLabel lblNewLabel_2_1;
 
 	/**
 	 * Launch the application.
@@ -103,37 +107,39 @@ public class Tela_inicial {
 	/**
 	 * Create the application.
 	 */
-	 public Tela_inicial(String nomeUsuario, String matricula) {
-	        initialize(nomeUsuario, matricula);
-	    }
-	 
-	 public void inicializarTela(String nomeUsuario, String matricula) {
-		    EventQueue.invokeLater(new Runnable() {
-		        public void run() {
-		            try {
-		                Tela_inicial window = new Tela_inicial(nomeUsuario, matricula);
-		                window.frmTelaInicial.setVisible(true);
-		            } catch (Exception e) {
-		                e.printStackTrace();
-		            }
-		        }
-		    });
-		}
+	public Tela_inicial(String nomeUsuario, String matricula) {
+		initialize(nomeUsuario, matricula);
+	}
+
+	public void inicializarTela(String nomeUsuario, String matricula) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Tela_inicial window = new Tela_inicial(nomeUsuario, matricula);
+					window.frmTelaInicial.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
 	/**
 	 * Initialize the contents of the frame.
-	 * @param nomeUsuario 
+	 * 
+	 * @param nomeUsuario
 	 */
 	private void initialize(String nomeUsuario, String matricula) {
-		
+
 		frmTelaInicial = new JFrame();
 		frmTelaInicial.setBackground(Color.WHITE);
-		frmTelaInicial.setResizable(true);
+		frmTelaInicial.setResizable(false);
 		frmTelaInicial.setTitle("Tela Inicial");
 		frmTelaInicial.setOpacity(1.0f);
 		frmTelaInicial.setFont(new Font("Verdana", Font.PLAIN, 15));
 		frmTelaInicial.getContentPane().setBackground(SystemColor.window);
 		frmTelaInicial.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmTelaInicial.setBounds(0, 0, 1680, 1050 );
+		frmTelaInicial.setBounds(0, 0, 1980, 1050);
 		frmTelaInicial.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
 		cod_nome = new JTextField("");
@@ -245,10 +251,17 @@ public class Tela_inicial {
 		lblcodbarras.setEditable(false);
 		lblcodbarras.setFont(new Font("Verdana", Font.PLAIN, 16));
 
-		btnfinalizar = new JButton("Finalizar");
-		btnfinalizar.setBounds(773, 601, 135, 45);
-		btnfinalizar = new JButton("Finalizar");
+		btnfinalizar = new JButton("Finalizar - F10");
 		btnfinalizar.setBounds(720, 635, 185, 55);
+		KeyStroke keyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_F10, 0);
+		btnfinalizar.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(keyStroke, "F10");
+		btnfinalizar.getActionMap().put("F10", new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				performAction();
+			}
+		});
+
+		btnfinalizar.setFocusable(true);
 		btnfinalizar.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -297,7 +310,7 @@ public class Tela_inicial {
 						// Formata a data para o formato 'yyyy-MM-dd'
 						SimpleDateFormat formatadorMySQL = new SimpleDateFormat("yyyy-MM-dd");
 						String dataFormatadaMySQL = formatadorMySQL.format(dataAtual);
-						
+
 						Data.gravarDados("RETIRADAEREPOSICAO2", new CampoBD("codnome", codnome),
 								new CampoBD("nome", nome), new CampoBD("tipo", tpString), new CampoBD("qtd2", qt2),
 								new CampoBD("data", dataFormatadaMySQL), new CampoBD("codbarrassku2", codbarrassku1),
@@ -319,7 +332,7 @@ public class Tela_inicial {
 						// Formata a data para o formato 'yyyy-MM-dd'
 						SimpleDateFormat formatadorMySQL = new SimpleDateFormat("yyyy-MM-dd");
 						String dataFormatadaMySQL = formatadorMySQL.format(dataAtual);
-						
+
 						Data.gravarDados("RETIRADAEREPOSICAO3", new CampoBD("codnome", codnome),
 								new CampoBD("nome", nome), new CampoBD("tipo", tpString), new CampoBD("qtd3", qt3),
 								new CampoBD("data", dataFormatadaMySQL), new CampoBD("codbarrassku3", codbarrassku2),
@@ -340,7 +353,7 @@ public class Tela_inicial {
 						// Formata a data para o formato 'yyyy-MM-dd'
 						SimpleDateFormat formatadorMySQL = new SimpleDateFormat("yyyy-MM-dd");
 						String dataFormatadaMySQL = formatadorMySQL.format(dataAtual);
-						
+
 						Data.gravarDados("RETIRADAEREPOSICAO4", new CampoBD("codnome", codnome),
 								new CampoBD("nome", nome), new CampoBD("tipo", tpString), new CampoBD("qtd4", qt4),
 								new CampoBD("data", dataFormatadaMySQL), new CampoBD("codbarrassku4", codbarrassku3),
@@ -361,7 +374,7 @@ public class Tela_inicial {
 						// Formata a data para o formato 'yyyy-MM-dd'
 						SimpleDateFormat formatadorMySQL = new SimpleDateFormat("yyyy-MM-dd");
 						String dataFormatadaMySQL = formatadorMySQL.format(dataAtual);
-						
+
 						Data.gravarDados("RETIRADAEREPOSICAO5", new CampoBD("codnome", codnome),
 								new CampoBD("nome", nome), new CampoBD("tipo", tpString), new CampoBD("qtd5", qt5),
 								new CampoBD("data", dataFormatadaMySQL), new CampoBD("codbarrassku5", codbarrassku4),
@@ -378,11 +391,13 @@ public class Tela_inicial {
 			}
 
 		});
-		btnfinalizar.setBackground(new Color(135, 206, 250));
+		btnfinalizar.setBackground(new Color(0, 165, 170));
 		btnfinalizar.setForeground(new Color(255, 255, 255));
 		btnfinalizar.setFont(new Font("Microsoft JhengHei Light", Font.BOLD, 18));
 
-		JButton btnHistrico = new JButton("Histórico");
+		JButton btnHistrico = new JButton("  Histórico");
+		btnHistrico.setHorizontalAlignment(SwingConstants.LEFT);
+		btnHistrico.setIcon(new ImageIcon("src/img/historico.png"));
 		btnHistrico.setBounds(10, 413, 189, 52);
 		btnHistrico.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -390,24 +405,27 @@ public class Tela_inicial {
 				login.setVisible(true);
 			}
 		});
-		btnHistrico.setForeground(Color.BLACK);
-		btnHistrico.setBackground(Color.LIGHT_GRAY);
-		btnHistrico.setFont(new Font("Microsoft JhengHei", Font.BOLD, 12));
+		btnHistrico.setForeground(Color.WHITE);
+		btnHistrico.setBackground(new Color(0, 165, 170));
+		btnHistrico.setFont(new Font("Microsoft JhengHei", Font.BOLD, 13));
 
 		Date dataAtual = new Date();
 		// Formata a data para o formato 'yyyy-MM-dd'
 		SimpleDateFormat formatadorMySQL = new SimpleDateFormat("yyyy-MM-dd");
-		
+
 		String dataFormatadaMySQL = formatadorMySQL.format(dataAtual);
 
 		// Declare a variável dat como final para que ela seja acessível dentro do Timer
 		final SimpleDateFormat dat = new SimpleDateFormat("dd/MM/yyyy");
-		
+
 		data1 = new JFormattedTextField(dat);
-		data1.setBounds(10, 479, 92, 30);
+		data1.setHorizontalAlignment(SwingConstants.CENTER);
+		data1.setForeground(Color.BLACK);
+		data1.setBackground(Color.WHITE);
+		data1.setBounds(10, 479, 189, 30);
 		data1.setEnabled(false);
 		data1.setEditable(false);
-		data1.setFont(new Font("Verdana", Font.PLAIN, 14));
+		data1.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
 		data1.setColumns(10);
 		frmTelaInicial.getContentPane().setLayout(null);
 		frmTelaInicial.getContentPane().setLayout(null);
@@ -760,7 +778,17 @@ public class Tela_inicial {
 		btnbloq4.setBounds(571, 556, 24, 24);
 		frmTelaInicial.getContentPane().add(btnbloq4);
 
-		btnlimpar = new JButton("Limpar");
+		btnlimpar = new JButton("Limpar - F7");
+		btnlimpar.setHorizontalAlignment(SwingConstants.LEFT);
+		KeyStroke keyStroke2 = KeyStroke.getKeyStroke(KeyEvent.VK_F7, 0);
+		btnlimpar.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(keyStroke2, "F7");
+		btnlimpar.getActionMap().put("F7", new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				f7limpar();
+			}
+		});
+
+		btnlimpar.setFocusable(true);
 		btnlimpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				apagar();
@@ -770,11 +798,12 @@ public class Tela_inicial {
 		btnlimpar.setIcon(new ImageIcon("src/img/vassoura.png"));
 		btnlimpar.setForeground(Color.WHITE);
 		btnlimpar.setFont(new Font("Microsoft JhengHei", Font.BOLD, 12));
-		btnlimpar.setBackground(new Color(112, 128, 144));
+		btnlimpar.setBackground(new Color(0, 165, 170));
 		btnlimpar.setBounds(10, 83, 189, 52);
 		frmTelaInicial.getContentPane().add(btnlimpar);
 
 		btnDesbloquear = new JButton("Desbloquear todos");
+		btnDesbloquear.setHorizontalAlignment(SwingConstants.LEFT);
 		btnDesbloquear.setIcon(new ImageIcon("src/img/cadeado-aberto.png"));
 		btnDesbloquear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -784,11 +813,12 @@ public class Tela_inicial {
 		});
 		btnDesbloquear.setForeground(Color.WHITE);
 		btnDesbloquear.setFont(new Font("Microsoft JhengHei", Font.BOLD, 12));
-		btnDesbloquear.setBackground(new Color(50, 205, 50));
+		btnDesbloquear.setBackground(new Color(0, 165, 170));
 		btnDesbloquear.setBounds(10, 276, 189, 52);
 		frmTelaInicial.getContentPane().add(btnDesbloquear);
 
 		btnNewButton = new JButton("Bloquear todos");
+		btnNewButton.setHorizontalAlignment(SwingConstants.LEFT);
 		btnNewButton.setIcon(new ImageIcon("src/img/cadeado.png"));
 		btnNewButton.setFont(new Font("Microsoft JhengHei", Font.BOLD, 12));
 		btnNewButton.addActionListener(new ActionListener() {
@@ -796,25 +826,27 @@ public class Tela_inicial {
 				bloqueartodos();
 			}
 		});
-		btnNewButton.setBackground(new Color(255, 0, 0));
+		btnNewButton.setBackground(new Color(0, 165, 170));
 		btnNewButton.setForeground(new Color(255, 255, 255));
 		btnNewButton.setBounds(10, 345, 189, 52);
 		frmTelaInicial.getContentPane().add(btnNewButton);
 
-		JLabel lblNewLabel = new JLabel("ProSync Innovations ©");
+		JLabel lblNewLabel = new JLabel(copy);
 		lblNewLabel.setFont(new Font("Dialog", Font.ITALIC, 14));
 		lblNewLabel.setBounds(329, 18, 173, 24);
 		frmTelaInicial.getContentPane().add(lblNewLabel);
 
 		JLabel logo = new JLabel("");
-		logo.setIcon(new ImageIcon("src/img/sualogo.png"));
+		logo.setIcon(new ImageIcon("src/img/EmblemaElis.png"));
 		logo.setBounds(20, 573, 350, 255);
 		frmTelaInicial.getContentPane().add(logo);
 
-		lblNewLabel_2 = new JLabel("ProSync Innovations ©");
+		lblNewLabel_2 = new JLabel(copy);
 		lblNewLabel_2.setFont(new Font("Dialog", Font.ITALIC, 14));
 		lblNewLabel_2.setBounds(10, 521, 153, 24);
 		frmTelaInicial.getContentPane().add(lblNewLabel_2);
+
+		lblNewLabel_2_1 = new JLabel(copy);
 		lblNewLabel_2_1.setBounds(1316, 770, 173, 36);
 		frmTelaInicial.getContentPane().add(lblNewLabel_2_1);
 		lblNewLabel_2_1.setFont(new Font("Dialog", Font.ITALIC, 14));
@@ -829,31 +861,35 @@ public class Tela_inicial {
 		textaplicacao.setBounds(401, 100, 197, 42);
 		frmTelaInicial.getContentPane().add(textaplicacao);
 		textaplicacao.setColumns(10);
-		
-		JButton btncadcolaborador = new JButton("Novo Colaborador");
+
+		JButton btncadcolaborador = new JButton("Novo colaborador");
+		btncadcolaborador.setIcon(new ImageIcon("src/img/novouser.png"));
+		btncadcolaborador.setHorizontalAlignment(SwingConstants.LEFT);
 		btncadcolaborador.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new Login2().setVisible(true);
 			}
 		});
-		btncadcolaborador.setForeground(Color.BLACK);
+		btncadcolaborador.setForeground(Color.WHITE);
 		btncadcolaborador.setFont(new Font("Microsoft JhengHei", Font.BOLD, 12));
-		btncadcolaborador.setBackground(new Color(135, 206, 250));
+		btncadcolaborador.setBackground(new Color(0, 165, 170));
 		btncadcolaborador.setBounds(10, 145, 189, 52);
 		frmTelaInicial.getContentPane().add(btncadcolaborador);
-		
-		JButton btncadprodut = new JButton("Novo Porduto");
+
+		JButton btncadprodut = new JButton("Novo item");
+		btncadprodut.setIcon(new ImageIcon("src/img/novoitem.png"));
+		btncadprodut.setHorizontalAlignment(SwingConstants.LEFT);
 		btncadprodut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new Login3().setVisible(true);
 			}
 		});
-		btncadprodut.setForeground(Color.BLACK);
+		btncadprodut.setForeground(Color.WHITE);
 		btncadprodut.setFont(new Font("Microsoft JhengHei", Font.BOLD, 12));
-		btncadprodut.setBackground(new Color(135, 206, 250));
+		btncadprodut.setBackground(new Color(0, 165, 170));
 		btncadprodut.setBounds(10, 208, 189, 52);
 		frmTelaInicial.getContentPane().add(btncadprodut);
-		
+
 		login = new JTextField(nomeUsuario);
 		login.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 12));
 		login.setEnabled(false);
@@ -861,31 +897,29 @@ public class Tela_inicial {
 		login.setBounds(12, 12, 173, 30);
 		frmTelaInicial.getContentPane().add(login);
 		login.setColumns(10);
-		
+
 		btnsair = new JButton("Sair");
 		btnsair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				 try (Connection connection = DB_Connection.get_connection()) {
-			           
-					 switch (JOptionPane.showConfirmDialog(null, "Deseja sair ?", "Desconecta-se",
-								JOptionPane.YES_NO_OPTION)) {
-						case 0:
-							// Registra o logoff ao clicar em "Sair"
-						 	HistoricoLoginDAO.registrarLogoff(connection, matricula);
-				            // Fecha a janela
-				            frmTelaInicial.dispose();
-				            new Tela_Login_Inicial().setVisible(true);
+				try (Connection connection = DB_Connection.get_connection()) {
 
-						case 1:
-							return;
+					switch (JOptionPane.showConfirmDialog(null, "Deseja sair ?", "Desconecta-se",
+							JOptionPane.YES_NO_OPTION)) {
+					case 0:
+						// Registra o logoff ao clicar em "Sair"
+						HistoricoLoginDAO.registrarLogoff(connection, matricula);
+						// Fecha a janela
+						frmTelaInicial.dispose();
+						new Tela_Login_Inicial().setVisible(true);
 
-						}
-					 
-					 
+					case 1:
+						return;
 
-			        } catch (SQLException ex) {
-			            ex.printStackTrace();
-			        }
+					}
+
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+				}
 			}
 		});
 		btnsair.setForeground(Color.WHITE);
@@ -1016,5 +1050,129 @@ public class Tela_inicial {
 		} else {
 			btnfinalizar.setEnabled(true);
 		}
+	}
+
+	private void performAction() {
+		if (cod_nome.getText().equals("") || codbarrasOUsku.getText().equals("")
+				|| tipo.getSelectedItem().equals("(Nenhum)") || lblcodbarras.getText().equals("Cód. Barras/SKU")
+				|| lblcodbarras.getText().equals("Não cadastrado") || textField.getText().equals("Não cadastrado")
+				|| textField_2.getText().equals("Não cadastrado") || textField_4.getText().equals("Não cadastrado")
+				|| textField_6.getText().equals("Não cadastrado")
+				|| lblNomeRequisitante.getText().equals("Não cadastrado") || textaplicacao.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, "Preencha corretamente");
+			return;
+		} else {
+			if (!lblcodbarras.getText().equals("Cód. Barras/SKU") || !lblcodbarras.getText().equals("Não cadastrado")) {
+				String codnome = cod_nome.getText();
+				String nome = lblNomeRequisitante.getText();
+				Object tp = tipo.getSelectedItem();
+				String tpString = (String) tp;
+				String qt1 = qtd.getValue().toString();
+				String codbarrassku = codbarrasOUsku.getText(); // codigo do item
+				String barrasku = lblcodbarras.getText(); // nome do item
+				String app = textaplicacao.getText();
+				Date dataAtual = new Date();
+				// Formata a data para o formato 'yyyy-MM-dd'
+				SimpleDateFormat formatadorMySQL = new SimpleDateFormat("yyyy-MM-dd");
+				String dataFormatadaMySQL = formatadorMySQL.format(dataAtual);
+				Data.gravarDados("RETIRADAEREPOSICAO1", new CampoBD("codnome", codnome), new CampoBD("nome", nome),
+						new CampoBD("tipo", tpString), new CampoBD("qtd1", qt1),
+						new CampoBD("data", dataFormatadaMySQL), new CampoBD("codbarrassku1", codbarrassku),
+						new CampoBD("barrassku1", barrasku), new CampoBD("app", app));
+
+			}
+			if (isDesbloq1) {
+				String codnome = cod_nome.getText();
+				String nome = lblNomeRequisitante.getText();
+				Object tp = tipo.getSelectedItem();
+				String tpString = (String) tp;
+				String qt2 = qtd1.getValue().toString();
+				String codbarrassku1 = textField_1.getText(); // codigo do item
+				String barrasku1 = textField.getText(); // nome do item
+				String app = textaplicacao.getText();
+				Date dataAtual = new Date();
+				// Formata a data para o formato 'yyyy-MM-dd'
+				SimpleDateFormat formatadorMySQL = new SimpleDateFormat("yyyy-MM-dd");
+				String dataFormatadaMySQL = formatadorMySQL.format(dataAtual);
+
+				Data.gravarDados("RETIRADAEREPOSICAO2", new CampoBD("codnome", codnome), new CampoBD("nome", nome),
+						new CampoBD("tipo", tpString), new CampoBD("qtd2", qt2),
+						new CampoBD("data", dataFormatadaMySQL), new CampoBD("codbarrassku2", codbarrassku1),
+						new CampoBD("barrassku2", barrasku1), new CampoBD("app", app));
+
+				isDesbloq1 = false;
+
+			}
+			if (isDesbloq2) {
+				String codnome = cod_nome.getText();
+				String nome = lblNomeRequisitante.getText();
+				Object tp = tipo.getSelectedItem();
+				String tpString = (String) tp;
+				String qt3 = qtd2.getValue().toString();
+				String codbarrassku2 = textField_3.getText(); // codigo do item
+				String barrasku2 = textField_2.getText(); // nome do item
+				String app = textaplicacao.getText();
+				Date dataAtual = new Date();
+				// Formata a data para o formato 'yyyy-MM-dd'
+				SimpleDateFormat formatadorMySQL = new SimpleDateFormat("yyyy-MM-dd");
+				String dataFormatadaMySQL = formatadorMySQL.format(dataAtual);
+
+				Data.gravarDados("RETIRADAEREPOSICAO3", new CampoBD("codnome", codnome), new CampoBD("nome", nome),
+						new CampoBD("tipo", tpString), new CampoBD("qtd3", qt3),
+						new CampoBD("data", dataFormatadaMySQL), new CampoBD("codbarrassku3", codbarrassku2),
+						new CampoBD("barrassku3", barrasku2), new CampoBD("app", app));
+
+				isDesbloq2 = false;
+			}
+			if (isDesbloq3) {
+				String codnome = cod_nome.getText();
+				String nome = lblNomeRequisitante.getText();
+				Object tp = tipo.getSelectedItem();
+				String tpString = (String) tp;
+				String qt4 = qtd3.getValue().toString();
+				String codbarrassku3 = textField_5.getText(); // codigo do item
+				String barrasku3 = textField_4.getText(); // nome do item
+				String app = textaplicacao.getText();
+				Date dataAtual = new Date();
+				// Formata a data para o formato 'yyyy-MM-dd'
+				SimpleDateFormat formatadorMySQL = new SimpleDateFormat("yyyy-MM-dd");
+				String dataFormatadaMySQL = formatadorMySQL.format(dataAtual);
+
+				Data.gravarDados("RETIRADAEREPOSICAO4", new CampoBD("codnome", codnome), new CampoBD("nome", nome),
+						new CampoBD("tipo", tpString), new CampoBD("qtd4", qt4),
+						new CampoBD("data", dataFormatadaMySQL), new CampoBD("codbarrassku4", codbarrassku3),
+						new CampoBD("barrassku4", barrasku3), new CampoBD("app", app));
+
+				isDesbloq3 = false;
+			}
+			if (isDesbloq4) {
+				String codnome = cod_nome.getText();
+				String nome = lblNomeRequisitante.getText();
+				Object tp = tipo.getSelectedItem();
+				String tpString = (String) tp;
+				String qt5 = qtd4.getValue().toString();
+				String codbarrassku4 = textField_7.getText(); // codigo do item
+				String barrasku4 = textField_6.getText(); // nome do item
+				String app = textaplicacao.getText();
+				Date dataAtual = new Date();
+				// Formata a data para o formato 'yyyy-MM-dd'
+				SimpleDateFormat formatadorMySQL = new SimpleDateFormat("yyyy-MM-dd");
+				String dataFormatadaMySQL = formatadorMySQL.format(dataAtual);
+
+				Data.gravarDados("RETIRADAEREPOSICAO5", new CampoBD("codnome", codnome), new CampoBD("nome", nome),
+						new CampoBD("tipo", tpString), new CampoBD("qtd5", qt5),
+						new CampoBD("data", dataFormatadaMySQL), new CampoBD("codbarrassku5", codbarrassku4),
+						new CampoBD("barrassku5", barrasku4), new CampoBD("app", app));
+
+				isDesbloq4 = false;
+			}
+			bloqueartodos();
+			JOptionPane.showMessageDialog(null, "ENVIADO!");
+			apagar();
+		}
+	}
+
+	private void f7limpar() {
+		apagar();
 	}
 }

@@ -41,7 +41,7 @@ public class Tela_Login_Inicial extends JFrame {
 	private JLabel lblNewLabel_4;
 	private JLabel lblNewLabel_5;
 	private JPanel panel_1;
-
+	private String copy = "JeanLM TI ©";
 	/**
 	 * Launch the application.
 	 */
@@ -63,7 +63,7 @@ public class Tela_Login_Inicial extends JFrame {
 	 */
 	public Tela_Login_Inicial() {
 		setBackground(Color.WHITE);
-		setResizable(true);
+		setResizable(false);
 		setTitle("Login");
 		getContentPane().setBackground(Color.WHITE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -85,7 +85,7 @@ public class Tela_Login_Inicial extends JFrame {
 		logo = new JLabel("");
 		logo.setBackground(Color.WHITE);
 		logo.setIcon(new ImageIcon("src/img/LogoElis.png"));
-		logo.setBounds(230, 51, 149, 144);
+		logo.setBounds(230, 37, 180, 178);
 		panel.add(logo);
 		
 		login = new JTextField();
@@ -203,7 +203,7 @@ public class Tela_Login_Inicial extends JFrame {
 		visiblepass.setBounds(414, 301, 41, 33);
 		panel.add(visiblepass);
 		
-		lblNewLabel = new JLabel("ProSync Innovations ©");
+		lblNewLabel = new JLabel(copy);
 		lblNewLabel.setFont(new Font("Dialog", Font.ITALIC, 12));
 		lblNewLabel.setBounds(12, 12, 142, 16);
 		panel.add(lblNewLabel);
@@ -220,12 +220,12 @@ public class Tela_Login_Inicial extends JFrame {
 		lblNewLabel_5.setBounds(199, 269, 85, 33);
 		panel.add(lblNewLabel_5);
 		
-		lblNewLabel_2 = new JLabel("ProSync Innovations ©");
+		lblNewLabel_2 = new JLabel(copy);
 		lblNewLabel_2.setFont(new Font("Dialog", Font.ITALIC, 12));
 		lblNewLabel_2.setBounds(12, 12, 142, 16);
 		contentPane.add(lblNewLabel_2);
 		
-		lblNewLabel_3 = new JLabel("ProSync Innovations ©");
+		lblNewLabel_3 = new JLabel(copy);
 		lblNewLabel_3.setFont(new Font("Dialog", Font.ITALIC, 12));
 		lblNewLabel_3.setBounds(12, 777, 142, 16);
 		contentPane.add(lblNewLabel_3);

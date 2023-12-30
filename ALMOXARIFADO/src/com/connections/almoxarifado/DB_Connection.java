@@ -16,7 +16,7 @@ public class DB_Connection {
         try {
             // Tenta estabelecer a conexão
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/almoxarifado", "root", "$3nh4");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/almoxarifado", "root", "6503$KMs");
         } catch (Exception e) {
             System.out.println("Não foi possível conectar ao banco de dados. Verificando e iniciando o servidor MySQL...");
 

@@ -159,11 +159,11 @@ public class Login extends JFrame {
 
 		entrar.setFont(new Font("Microsoft YaHei", Font.BOLD, 13));
 		entrar.setForeground(Color.WHITE);
-		entrar.setBackground(new Color(135, 206, 250));
+		entrar.setBackground(new Color(0, 165, 170));
 		entrar.setBounds(206, 226, 94, 38);
 		contentPane.add(entrar);
 
-		lblNewLabel_2 = new JLabel("ProSync Innovations ©");
+		lblNewLabel_2 = new JLabel("JeanLM TI ©");
 		lblNewLabel_2.setBackground(Color.LIGHT_GRAY);
 		lblNewLabel_2.setFont(new Font("Verdana", Font.ITALIC, 12));
 		lblNewLabel_2.setBounds(10, 281, 166, 13);

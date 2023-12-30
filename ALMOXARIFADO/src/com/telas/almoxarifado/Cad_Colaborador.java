@@ -146,7 +146,7 @@ public class Cad_Colaborador extends JFrame {
 
 		JLabel logo = new JLabel("");
 		logo.setBounds(12, 12, 149, 144);
-		logo.setIcon(new ImageIcon("src/img/sualogo.png"));
+		logo.setIcon(new ImageIcon("src/img/EmblemaElis.png"));
 		contentPane.add(logo);
 
 		btncad = new JButton("Cadastrar");
@@ -172,13 +172,14 @@ public class Cad_Colaborador extends JFrame {
 		       
 		    }
 		});
-		btncad.setForeground(Color.DARK_GRAY);
-		btncad.setBackground(new Color(0, 250, 154));
+		btncad.setForeground(Color.WHITE);
+		btncad.setBackground(new Color(0, 165, 170));
 		btncad.setFont(new Font("Microsoft JhengHei", Font.BOLD, 10));
 		btncad.setBounds(344, 160, 85, 37);
 		contentPane.add(btncad);
 
-		btndeletar = new JButton("Deletar");
+		btndeletar = new JButton("");
+		btndeletar.setIcon(new ImageIcon("src/img/lixeiraM.png"));
 		btndeletar.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
 
@@ -204,10 +205,16 @@ public class Cad_Colaborador extends JFrame {
 		}
 	});
 		btndeletar.setForeground(Color.WHITE);
-		btndeletar.setBackground(new Color(255, 0, 0));
+		btndeletar.setBackground(new Color(0, 165, 170));
 		btndeletar.setFont(new Font("Microsoft JhengHei", Font.BOLD, 13));
 		btndeletar.setBounds(605, 210, 92, 44);
 		contentPane.add(btndeletar);
+		
+		JLabel lblNewLabel = new JLabel("JeanLM TI©");
+		lblNewLabel.setForeground(Color.GRAY);
+		lblNewLabel.setFont(new Font("Microsoft JhengHei", Font.ITALIC, 12));
+		lblNewLabel.setBounds(671, 10, 116, 21);
+		contentPane.add(lblNewLabel);
 		initComplementos();
 	}
 	public void initComplementos() {
@@ -300,5 +307,4 @@ public class Cad_Colaborador extends JFrame {
 	    
 	    }
 	}
-
 }

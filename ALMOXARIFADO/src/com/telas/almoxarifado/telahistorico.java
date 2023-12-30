@@ -96,7 +96,7 @@ public class telahistorico extends JFrame {
 
 			public void windowOpened(WindowEvent e) {
 				String[] column = { "id", "Cod.Req", "Nome Requisitante", "Tipo", "Quantidade", "Data",
-						"Cod.Barras/Sku", "Item", "Aplicaçao", "id_table" };
+						"Cod.Barras/Sku", "Item", "Aplicacao", "id_table" };
 				ArrayList<String[]> dados = Data.lerDados("retiradaereposicao1", "retiradaereposicao2",
 						"retiradaereposicao3", "retiradaereposicao4", "retiradaereposicao5");
 				DefaultTableModel model = (DefaultTableModel) historicotable.getModel();
@@ -116,7 +116,8 @@ public class telahistorico extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		btnapagar = new JButton("Deletar");
+		btnapagar = new JButton("");
+		btnapagar.setIcon(new ImageIcon("src/img/lixeiraM.png"));
 		btnapagar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -143,7 +144,7 @@ public class telahistorico extends JFrame {
 			}
 		});
 		btnapagar.setForeground(Color.WHITE);
-		btnapagar.setBackground(Color.RED);
+		btnapagar.setBackground(new Color(0, 165, 170));
 		btnapagar.setFont(new Font("Verdana", Font.PLAIN, 16));
 		btnapagar.setBounds(840, 56, 143, 53);
 		contentPane.add(btnapagar);
@@ -209,22 +210,23 @@ public class telahistorico extends JFrame {
 		lblTipo.setBounds(240, 79, 185, 30);
 		contentPane.add(lblTipo);
 
-		JLabel lblNewLabel_1 = new JLabel("");
-		lblNewLabel_1.setIcon(new ImageIcon("src/img/sualogopaisagem.png"));
-		lblNewLabel_1.setBounds(328, 10, 379, 88);
-		contentPane.add(lblNewLabel_1);
+		JLabel logo = new JLabel("");
+		logo.setIcon(new ImageIcon("src/img/ImagemElisHorizontal.png"));
+		logo.setBounds(328, 10, 379, 88);
+		contentPane.add(logo);
 
-		lblNewLabel_2 = new JLabel("ProSync Innovations ©");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.ITALIC, 10));
+		lblNewLabel_2 = new JLabel("JeanLM TI ©");
+		lblNewLabel_2.setFont(new Font("Microsoft JhengHei", Font.ITALIC, 12));
 		lblNewLabel_2.setBounds(840, 10, 143, 20);
 		contentPane.add(lblNewLabel_2);
 
 		btnExportar = new JButton("Exportar");
+		btnExportar.setIcon(new ImageIcon("src/img/share.png"));
 		btnExportar.addActionListener(e -> export(historicotable));
-		btnExportar.setBackground(Color.WHITE);
-		btnExportar.setForeground(new Color(0, 128, 0));
+		btnExportar.setBackground(new Color(0, 165, 170));
+		btnExportar.setForeground(Color.WHITE);
 		btnExportar.setFont(new Font("Microsoft JhengHei", Font.BOLD, 13));
-		btnExportar.setBounds(408, 106, 102, 32);
+		btnExportar.setBounds(408, 106, 131, 32);
 		contentPane.add(btnExportar);
 
 		initComplementos();
@@ -295,7 +297,7 @@ public class telahistorico extends JFrame {
 
             try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))) {
                 // Escrever os nomes das colunas
-                for (int i = 0; i < model.getColumnCount(); i++) {
+                for (int i = 1; i <=8; i++) {
                     writer.write(escapeCsvValue(model.getColumnName(i)));
                     if (i < model.getColumnCount() - 1) {
                         writer.write(";");
@@ -305,7 +307,7 @@ public class telahistorico extends JFrame {
 
                 // Escrever os dados das células
                 for (int i = 0; i < model.getRowCount(); i++) {
-                    for (int j = 0; j < model.getColumnCount(); j++) {
+                    for (int j = 1; j <=8; j++) {
                         writer.write(escapeCsvValue(model.getValueAt(i, j).toString()));
                         if (j < model.getColumnCount() - 1) {
                             writer.write(";");

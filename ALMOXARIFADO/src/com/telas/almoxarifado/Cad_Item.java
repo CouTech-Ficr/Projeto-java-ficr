@@ -115,22 +115,22 @@ public class Cad_Item extends JFrame {
 		});
 		btncadastro.setVisible(false);
 		btncadastro.setForeground(Color.WHITE);
-		btncadastro.setBackground(new Color(0, 250, 154));
+		btncadastro.setBackground(new Color(0, 165, 170));
 		btncadastro.setFont(new Font("Microsoft JhengHei", Font.BOLD, 14));
-		btncadastro.setBounds(328, 568, 136, 62);
+		btncadastro.setBounds(341, 550, 136, 62);
 		contentPane.add(btncadastro);
 		
 		JLabel logo = new JLabel("");
-		logo.setIcon(new ImageIcon("src/img/sualogo.png"));
+		logo.setIcon(new ImageIcon("src/img/EmblemaElis.png"));
 		logo.setBounds(328, 43, 149, 144);
 		contentPane.add(logo);
 		
-		lblNewLabel = new JLabel("ProSync Innovations ©");
+		lblNewLabel = new JLabel("JeanLM TI ©");
 		lblNewLabel.setFont(new Font("Dialog", Font.ITALIC, 12));
 		lblNewLabel.setBounds(12, 12, 142, 16);
 		contentPane.add(lblNewLabel);
 		
-		lblNewLabel_1 = new JLabel("ProSync Innovations ©");
+		lblNewLabel_1 = new JLabel("JeanLM TI©");
 		lblNewLabel_1.setFont(new Font("Dialog", Font.ITALIC, 12));
 		lblNewLabel_1.setBounds(644, 685, 142, 16);
 		contentPane.add(lblNewLabel_1);
@@ -142,7 +142,7 @@ public class Cad_Item extends JFrame {
 		
 		textPane = new JTextPane();
 		scrollPane.setViewportView(textPane);
-		textPane.setBackground(SystemColor.inactiveCaption);
+		textPane.setBackground(Color.WHITE);
 		
 		btnapenasUm = new JButton("Apenas um");
 		btnapenasUm.addActionListener(new ActionListener() {
@@ -160,8 +160,8 @@ public class Cad_Item extends JFrame {
 				btnvoltar.setVisible(true);
 			}
 		});
-		btnapenasUm.setForeground(SystemColor.windowText);
-		btnapenasUm.setBackground(SystemColor.inactiveCaption);
+		btnapenasUm.setForeground(Color.WHITE);
+		btnapenasUm.setBackground(new Color(0, 165, 170));
 		btnapenasUm.setFont(new Font("Microsoft YaHei", Font.BOLD, 17));
 		btnapenasUm.setBounds(288, 264, 229, 78);
 		contentPane.add(btnapenasUm);
@@ -184,8 +184,8 @@ public class Cad_Item extends JFrame {
 				btnvoltar.setVisible(true);
 			}
 		});
-		btnvarios.setForeground(SystemColor.windowText);
-		btnvarios.setBackground(SystemColor.inactiveCaption);
+		btnvarios.setForeground(Color.WHITE);
+		btnvarios.setBackground(new Color(0, 165, 170));
 		btnvarios.setFont(new Font("Microsoft YaHei", Font.BOLD, 17));
 		btnvarios.setBounds(288, 367, 229, 78);
 		contentPane.add(btnvarios);
@@ -236,6 +236,7 @@ public class Cad_Item extends JFrame {
 		contentPane.add(lblNewLabel_5);
 		
 		btnvoltar = new JButton("Voltar");
+		btnvoltar.setForeground(Color.WHITE);
 		btnvoltar.setVisible(false);
 		btnvoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -258,7 +259,7 @@ public class Cad_Item extends JFrame {
 				textPane.setText("");
 			}
 		});
-		btnvoltar.setBackground(SystemColor.inactiveCaption);
+		btnvoltar.setBackground(new Color(0, 165, 170));
 		btnvoltar.setFont(new Font("Microsoft JhengHei", Font.BOLD, 15));
 		btnvoltar.setBounds(12, 35, 84, 36);
 		contentPane.add(btnvoltar);
