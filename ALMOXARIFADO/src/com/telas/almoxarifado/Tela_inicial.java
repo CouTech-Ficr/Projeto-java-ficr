@@ -204,7 +204,7 @@ public class Tela_inicial {
 		lblQuantidade.setFont(new Font("Verdana", Font.PLAIN, 16));
 
 		lblNomeRequisitante = new JTextField("Nome Requisitante");
-		lblNomeRequisitante.setBounds(617, 68, 173, 30);
+		lblNomeRequisitante.setBounds(617, 68, 197, 30);
 		lblNomeRequisitante.setEditable(false);
 		lblNomeRequisitante.setForeground(SystemColor.desktop);
 		lblNomeRequisitante.setBackground(SystemColor.window);
@@ -246,7 +246,7 @@ public class Tela_inicial {
 		codbarrasOUsku.setColumns(10);
 
 		lblcodbarras = new JTextField("Cód. Barras/SKU");
-		lblcodbarras.setBounds(617, 168, 173, 30);
+		lblcodbarras.setBounds(617, 168, 197, 30);
 		lblcodbarras.setEditable(false);
 		lblcodbarras.setFont(new Font("Verdana", Font.PLAIN, 16));
 
@@ -442,7 +442,7 @@ public class Tela_inicial {
 		textField = new JTextField("Cód. Barras/SKU");
 		textField.setFont(new Font("Verdana", Font.PLAIN, 16));
 		textField.setEditable(false);
-		textField.setBounds(617, 251, 173, 30);
+		textField.setBounds(617, 251, 197, 30);
 		frmTelaInicial.getContentPane().add(textField);
 
 		textField_1 = new JTextField();
@@ -487,7 +487,7 @@ public class Tela_inicial {
 		textField_2 = new JTextField("Cód. Barras/SKU");
 		textField_2.setFont(new Font("Verdana", Font.PLAIN, 16));
 		textField_2.setEditable(false);
-		textField_2.setBounds(617, 335, 173, 30);
+		textField_2.setBounds(617, 335, 197, 30);
 		frmTelaInicial.getContentPane().add(textField_2);
 
 		textField_3 = new JTextField();
@@ -542,7 +542,7 @@ public class Tela_inicial {
 		textField_4 = new JTextField("Cód. Barras/SKU");
 		textField_4.setFont(new Font("Verdana", Font.PLAIN, 16));
 		textField_4.setEditable(false);
-		textField_4.setBounds(617, 418, 173, 30);
+		textField_4.setBounds(617, 418, 197, 30);
 		frmTelaInicial.getContentPane().add(textField_4);
 
 		textField_5 = new JTextField();
@@ -597,7 +597,7 @@ public class Tela_inicial {
 		textField_6 = new JTextField("Cód. Barras/SKU");
 		textField_6.setFont(new Font("Verdana", Font.PLAIN, 16));
 		textField_6.setEditable(false);
-		textField_6.setBounds(617, 518, 173, 30);
+		textField_6.setBounds(617, 518, 197, 30);
 		frmTelaInicial.getContentPane().add(textField_6);
 
 		textField_7 = new JTextField();
