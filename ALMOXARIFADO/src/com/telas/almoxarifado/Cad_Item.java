@@ -280,7 +280,7 @@ public class Cad_Item extends JFrame {
 	    String[] linhas = inputText.split("\\n");
 
 	    // Conectar ao banco de dados e inserir os dados
-	    try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/almoxarifado", "root", "$3nh4")) {
+	    try (Connection connection = DriverManager.getConnection("jdbc:mysql://192.168.18.2:3306/almoxarifado", "root", "6503$KMs")) {
 	        String querySelect = "SELECT COUNT(*) FROM codigoproduto WHERE sku = ? AND ean = ?";
 	        String queryInsert = "INSERT INTO codigoproduto (sku, ean, nomeprod) VALUES (?, ?, ?)";
 
@@ -333,7 +333,7 @@ public class Cad_Item extends JFrame {
 	    String nomeprod = item.getText();
 
 	    // Conectar ao banco de dados e verificar se já existe um registro com o mesmo EAN e SKU
-	    try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/almoxarifado", "root", "$3nh4")) {
+	    try (Connection connection = DriverManager.getConnection("jdbc:mysql://192.168.18.2:3306/almoxarifado", "root", "6503$KMs")) {
 	        String querySelect = "SELECT COUNT(*) FROM codigoproduto WHERE sku = ? AND ean = ?";
 	        try (PreparedStatement selectStatement = connection.prepareStatement(querySelect)) {
 	            selectStatement.setString(1, skuprod);

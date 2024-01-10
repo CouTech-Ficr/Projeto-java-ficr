@@ -16,7 +16,7 @@ public class DB_Connection {
         try {
             // Tenta estabelecer a conexão
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/almoxarifado", "root", "6503$KMs");
+            connection = DriverManager.getConnection("jdbc:mysql://192.168.18.2:3306/almoxarifado", "root", "6503$KMs");
         } catch (Exception e) {
             System.out.println("Não foi possível conectar ao banco de dados. Verificando e iniciando o servidor MySQL...");
 
@@ -33,7 +33,7 @@ public class DB_Connection {
             // Tenta estabelecer a conexão novamente
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
-                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/almoxarifado", "root", "$3nh4");
+                connection = DriverManager.getConnection("jdbc:mysql://192.168.18.2:3306/almoxarifado", "root", "6503$KMs");
                 System.out.println("Conexão bem-sucedida após iniciar o servidor MySQL.");
             } catch (Exception ex) {
                 System.out.println("Não foi possível conectar ao banco de dados mesmo após iniciar o servidor MySQL.");

@@ -63,11 +63,11 @@ public class Tela_Login_Inicial extends JFrame {
 	 */
 	public Tela_Login_Inicial() {
 		setBackground(Color.WHITE);
-		setResizable(false);
+		setResizable(true);
 		setTitle("Login");
 		getContentPane().setBackground(Color.WHITE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(0, 0,1680,1050 );
+		setBounds(0, 0,800,720 );
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 
 		contentPane = new JPanel();
@@ -103,19 +103,19 @@ public class Tela_Login_Inicial extends JFrame {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					 String matricula = login.getText();
+					 String usuario = login.getText();
 				        char[] senhaChars = senha.getPassword();
 				        String senha = new String(senhaChars);
 
 				        try (Connection connection = DB_Connection.get_connection()) {
-				            String nomeUsuario = Data.autenticarUsuario(connection, matricula, senha);
+				            String nomeUsuario = Data.autenticarUsuario(connection, usuario, senha);
 
 				            if (nomeUsuario != null) {
 				                // Autenticação bem-sucedida
-				                HistoricoLoginDAO.registrarLogin(connection, matricula);
+				                HistoricoLoginDAO.registrarLogin(connection, usuario);
 				                dispose();
-				                Tela_inicial telaInicial = new Tela_inicial(matricula, nomeUsuario);
-				                telaInicial.inicializarTela(nomeUsuario, matricula);
+				                Tela_inicial telaInicial = new Tela_inicial(usuario, nomeUsuario);
+				                telaInicial.inicializarTela(nomeUsuario, usuario);
 
 				                
 				            } else {
@@ -141,19 +141,19 @@ public class Tela_Login_Inicial extends JFrame {
 		entrar.setBackground(new Color(0, 165, 170));
 		entrar.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
-		        String matricula = login.getText();
+		        String usuario = login.getText();
 		        char[] senhaChars = senha.getPassword();
 		        String senha = new String(senhaChars);
 
 		        try (Connection connection = DB_Connection.get_connection()) {
-		            String nomeUsuario = Data.autenticarUsuario(connection, matricula, senha);
+		            String nomeUsuario = Data.autenticarUsuario(connection, usuario, senha);
 
 		            if (nomeUsuario != null) {
 		                // Autenticação bem-sucedida
-		                HistoricoLoginDAO.registrarLogin(connection, matricula);
+		                HistoricoLoginDAO.registrarLogin(connection, usuario);
 		                dispose();
-		                Tela_inicial telaInicial = new Tela_inicial(matricula, nomeUsuario);
-		                telaInicial.inicializarTela(nomeUsuario, matricula);
+		                Tela_inicial telaInicial = new Tela_inicial(usuario, nomeUsuario);
+		                telaInicial.inicializarTela(nomeUsuario, usuario);
 
 		              
 		            } else {
@@ -208,7 +208,7 @@ public class Tela_Login_Inicial extends JFrame {
 		lblNewLabel.setBounds(12, 12, 142, 16);
 		panel.add(lblNewLabel);
 		
-		lblNewLabel_4 = new JLabel("Matrícula");
+		lblNewLabel_4 = new JLabel("Usuário");
 		lblNewLabel_4.setForeground(Color.BLACK);
 		lblNewLabel_4.setFont(new Font("Microsoft JhengHei", Font.BOLD, 14));
 		lblNewLabel_4.setBounds(199, 196, 85, 33);
@@ -219,6 +219,20 @@ public class Tela_Login_Inicial extends JFrame {
 		lblNewLabel_5.setFont(new Font("Microsoft JhengHei", Font.BOLD, 14));
 		lblNewLabel_5.setBounds(199, 269, 85, 33);
 		panel.add(lblNewLabel_5);
+		
+		JButton btnrelatorio = new JButton("Relatório");
+		btnrelatorio.setForeground(new Color(255, 255, 255));
+		btnrelatorio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new Login4().setVisible(true);
+			}
+		});
+		btnrelatorio.setIcon(new ImageIcon("src/img/relatorio.png"));
+		btnrelatorio.setBackground(new Color(0, 165, 170));
+		btnrelatorio.setFont(new Font("Microsoft YaHei", Font.BOLD, 9));
+		btnrelatorio.setBounds(12, 37, 112, 45);
+		
+		panel.add(btnrelatorio);
 		
 		lblNewLabel_2 = new JLabel(copy);
 		lblNewLabel_2.setFont(new Font("Dialog", Font.ITALIC, 12));

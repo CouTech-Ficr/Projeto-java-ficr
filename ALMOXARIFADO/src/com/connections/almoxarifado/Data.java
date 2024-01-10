@@ -139,11 +139,11 @@ public class Data {
 	    }
 	}
 	
-	public static String autenticarUsuario(Connection connection, String matricula, String senha) {
-	    String sql = "SELECT nome FROM telalogin WHERE matricula = ? AND senha_hash = ?";
+	public static String autenticarUsuario(Connection connection, String usuario, String senha) {
+	    String sql = "SELECT nome FROM telalogin WHERE usuario = ? AND senha_hash = ?";
 
 	    try (PreparedStatement statement = connection.prepareStatement(sql)) {
-	        statement.setString(1, matricula);
+	        statement.setString(1, usuario);
 	        statement.setString(2, senha);
 
 	        try (ResultSet resultSet = statement.executeQuery()) {

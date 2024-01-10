@@ -81,7 +81,7 @@ public class Tela_inicial {
 	private boolean isDesbloq4;
 	private JButton btnNewButton;
 	private JLabel lblNewLabel_2;
-	private JTextField textaplicacao;
+	private JComboBox textaplicacao;
 	private JTextField login;
 	private JButton btnsair;
 	private String copy = "JeanLM TI ©";
@@ -139,7 +139,6 @@ public class Tela_inicial {
 		frmTelaInicial.setFont(new Font("Verdana", Font.PLAIN, 15));
 		frmTelaInicial.getContentPane().setBackground(SystemColor.window);
 		frmTelaInicial.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmTelaInicial.setBounds(0, 0, 1980, 1050);
 		frmTelaInicial.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
 		cod_nome = new JTextField("");
@@ -180,7 +179,7 @@ public class Tela_inicial {
 		tipo.setBackground(new Color(255, 255, 255));
 		tipo.setBounds(845, 94, 197, 47);
 		tipo.setModel(new DefaultComboBoxModel(new String[] { "(Nenhum)", "Retirada", "Reposição" }));
-		tipo.setFont(new Font("Verdana", Font.PLAIN, 14));
+		tipo.setFont(new Font("Microsoft YaHei", Font.PLAIN, 15));
 
 		JLabel lblTipo = new JLabel("Tipo");
 		lblTipo.setBounds(846, 68, 173, 30);
@@ -273,7 +272,7 @@ public class Tela_inicial {
 						|| textField_4.getText().equals("Não cadastrado")
 						|| textField_6.getText().equals("Não cadastrado")
 						|| lblNomeRequisitante.getText().equals("Não cadastrado")
-						|| textaplicacao.getText().equals("")) {
+						|| textaplicacao.getSelectedItem().equals("-Selecione-")) {
 					JOptionPane.showMessageDialog(null, "Preencha corretamente");
 					return;
 				} else {
@@ -286,7 +285,7 @@ public class Tela_inicial {
 						String qt1 = qtd.getValue().toString();
 						String codbarrassku = codbarrasOUsku.getText(); // codigo do item
 						String barrasku = lblcodbarras.getText(); // nome do item
-						String app = textaplicacao.getText();
+						Object app = textaplicacao.getSelectedItem();
 						Date dataAtual = new Date();
 						// Formata a data para o formato 'yyyy-MM-dd'
 						SimpleDateFormat formatadorMySQL = new SimpleDateFormat("yyyy-MM-dd");
@@ -305,7 +304,7 @@ public class Tela_inicial {
 						String qt2 = qtd1.getValue().toString();
 						String codbarrassku1 = textField_1.getText(); // codigo do item
 						String barrasku1 = textField.getText(); // nome do item
-						String app = textaplicacao.getText();
+						Object app = textaplicacao.getSelectedItem();
 						Date dataAtual = new Date();
 						// Formata a data para o formato 'yyyy-MM-dd'
 						SimpleDateFormat formatadorMySQL = new SimpleDateFormat("yyyy-MM-dd");
@@ -327,7 +326,7 @@ public class Tela_inicial {
 						String qt3 = qtd2.getValue().toString();
 						String codbarrassku2 = textField_3.getText(); // codigo do item
 						String barrasku2 = textField_2.getText(); // nome do item
-						String app = textaplicacao.getText();
+						Object app = textaplicacao.getSelectedItem();
 						Date dataAtual = new Date();
 						// Formata a data para o formato 'yyyy-MM-dd'
 						SimpleDateFormat formatadorMySQL = new SimpleDateFormat("yyyy-MM-dd");
@@ -348,7 +347,7 @@ public class Tela_inicial {
 						String qt4 = qtd3.getValue().toString();
 						String codbarrassku3 = textField_5.getText(); // codigo do item
 						String barrasku3 = textField_4.getText(); // nome do item
-						String app = textaplicacao.getText();
+						Object app = textaplicacao.getSelectedItem();
 						Date dataAtual = new Date();
 						// Formata a data para o formato 'yyyy-MM-dd'
 						SimpleDateFormat formatadorMySQL = new SimpleDateFormat("yyyy-MM-dd");
@@ -369,7 +368,7 @@ public class Tela_inicial {
 						String qt5 = qtd4.getValue().toString();
 						String codbarrassku4 = textField_7.getText(); // codigo do item
 						String barrasku4 = textField_6.getText(); // nome do item
-						String app = textaplicacao.getText();
+						Object app = textaplicacao.getSelectedItem();
 						Date dataAtual = new Date();
 						// Formata a data para o formato 'yyyy-MM-dd'
 						SimpleDateFormat formatadorMySQL = new SimpleDateFormat("yyyy-MM-dd");
@@ -423,9 +422,8 @@ public class Tela_inicial {
 		data1.setForeground(Color.BLACK);
 		data1.setBackground(Color.WHITE);
 		data1.setBounds(10, 479, 189, 30);
-		data1.setEnabled(false);
 		data1.setEditable(false);
-		data1.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
+		data1.setFont(new Font("Microsoft JhengHei", Font.BOLD, 16));
 		data1.setColumns(10);
 		frmTelaInicial.getContentPane().setLayout(null);
 		frmTelaInicial.getContentPane().setLayout(null);
@@ -670,7 +668,7 @@ public class Tela_inicial {
 		btnbloq1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (isBloqueado1) {
-					btnbloq1.setIcon(new ImageIcon("src/img/cadeado.png"));
+					btnbloq1.setIcon(new ImageIcon("src/img/cadeado-fechado.png"));
 					btnbloq1.setBackground(new Color(255, 0, 0));
 					textField_1.setEnabled(false);
 					qtd1.setEnabled(false);
@@ -690,16 +688,16 @@ public class Tela_inicial {
 			}
 		});
 		btnbloq1.setBackground(new Color(255, 0, 0));
-		btnbloq1.setIcon(new ImageIcon("src/img/cadeado.png"));
+		btnbloq1.setIcon(new ImageIcon("src/img/cadeado-fechado.png"));
 		btnbloq1.setBounds(571, 291, 24, 24);
 		frmTelaInicial.getContentPane().add(btnbloq1);
 
 		btnbloq2 = new JButton("");
-		btnbloq2.setIcon(new ImageIcon("src/img/cadeado.png"));
+		btnbloq2.setIcon(new ImageIcon("src/img/cadeado-fechado.png"));
 		btnbloq2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (isBloqueado2) {
-					btnbloq2.setIcon(new ImageIcon("src/img/cadeado.png"));
+					btnbloq2.setIcon(new ImageIcon("src/img/cadeado-fechado.png"));
 					btnbloq2.setBackground(new Color(255, 0, 0));
 					textField_3.setEnabled(false);
 					textField_3.setText("Desbloquei para digitar");
@@ -723,11 +721,11 @@ public class Tela_inicial {
 		frmTelaInicial.getContentPane().add(btnbloq2);
 
 		btnbloq3 = new JButton("");
-		btnbloq3.setIcon(new ImageIcon("src/img/cadeado.png"));
+		btnbloq3.setIcon(new ImageIcon("src/img/cadeado-fechado.png"));
 		btnbloq3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (isBloqueado3) {
-					btnbloq3.setIcon(new ImageIcon("src/img/cadeado.png"));
+					btnbloq3.setIcon(new ImageIcon("src/img/cadeado-fechado.png"));
 					btnbloq3.setBackground(new Color(255, 0, 0));
 					textField_5.setEnabled(false);
 					textField_5.setText("Desbloquei para digitar");
@@ -751,11 +749,11 @@ public class Tela_inicial {
 		frmTelaInicial.getContentPane().add(btnbloq3);
 
 		btnbloq4 = new JButton("");
-		btnbloq4.setIcon(new ImageIcon("src/img/cadeado.png"));
+		btnbloq4.setIcon(new ImageIcon("src/img/cadeado-fechado.png"));
 		btnbloq4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (isBloqueado4) {
-					btnbloq4.setIcon(new ImageIcon("src/img/cadeado.png"));
+					btnbloq4.setIcon(new ImageIcon("src/img/cadeado-fechado.png"));
 					btnbloq4.setBackground(new Color(255, 0, 0));
 					textField_7.setEnabled(false);
 					textField_7.setText("Desbloquei para digitar");
@@ -795,7 +793,7 @@ public class Tela_inicial {
 				bloqueartodos();
 			}
 		});
-		btnlimpar.setIcon(new ImageIcon("src/img/vassoura.png"));
+		btnlimpar.setIcon(new ImageIcon("src/img/borracha.png"));
 		btnlimpar.setForeground(Color.WHITE);
 		btnlimpar.setFont(new Font("Microsoft JhengHei", Font.BOLD, 12));
 		btnlimpar.setBackground(new Color(0, 165, 170));
@@ -804,7 +802,7 @@ public class Tela_inicial {
 
 		btnDesbloquear = new JButton("Desbloquear todos");
 		btnDesbloquear.setHorizontalAlignment(SwingConstants.LEFT);
-		btnDesbloquear.setIcon(new ImageIcon("src/img/cadeado-aberto.png"));
+		btnDesbloquear.setIcon(new ImageIcon("src/img/cadeado-desbloqueado.png"));
 		btnDesbloquear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				desbloqueartodos();
@@ -856,11 +854,12 @@ public class Tela_inicial {
 		lblaplicação.setBounds(403, 73, 113, 21);
 		frmTelaInicial.getContentPane().add(lblaplicação);
 
-		textaplicacao = new JTextField();
-		textaplicacao.setFont(new Font("Verdana", Font.PLAIN, 15));
+		textaplicacao = new JComboBox();
+		textaplicacao.setModel(new DefaultComboBoxModel(new String[] {"-Selecione-", "Producao", "T.I", "Area Critica", "Hotelaria", "Hospitalar", "Cliente  Hospital", "Cliente  Hotel", "Expedicao", "Logistica", "Administrativo", "Seguranca do Trabalho", "RH", "Superintendencia"}));
+		textaplicacao.setBackground(Color.WHITE);
+		textaplicacao.setFont(new Font("Microsoft YaHei", Font.PLAIN, 15));
 		textaplicacao.setBounds(401, 100, 197, 42);
 		frmTelaInicial.getContentPane().add(textaplicacao);
-		textaplicacao.setColumns(10);
 
 		JButton btncadcolaborador = new JButton("Novo colaborador");
 		btncadcolaborador.setIcon(new ImageIcon("src/img/novouser.png"));
@@ -877,7 +876,7 @@ public class Tela_inicial {
 		frmTelaInicial.getContentPane().add(btncadcolaborador);
 
 		JButton btncadprodut = new JButton("Novo item");
-		btncadprodut.setIcon(new ImageIcon("src/img/novoitem.png"));
+		btncadprodut.setIcon(new ImageIcon("src/img/newproduct.png"));
 		btncadprodut.setHorizontalAlignment(SwingConstants.LEFT);
 		btncadprodut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -891,8 +890,9 @@ public class Tela_inicial {
 		frmTelaInicial.getContentPane().add(btncadprodut);
 
 		login = new JTextField(nomeUsuario);
-		login.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 12));
-		login.setEnabled(false);
+		login.setBackground(Color.WHITE);
+		login.setForeground(Color.BLACK);
+		login.setFont(new Font("Microsoft JhengHei", Font.BOLD, 10));
 		login.setEditable(false);
 		login.setBounds(12, 12, 173, 30);
 		frmTelaInicial.getContentPane().add(login);
@@ -961,7 +961,7 @@ public class Tela_inicial {
 		cod_nome.setText("");
 		codbarrasOUsku.setText("");
 		tipo.setSelectedItem("(Nenhum)");
-		textaplicacao.setText("");
+		textaplicacao.setSelectedItem("-Selecione-");
 		qtd.setValue(1);
 		qtd1.setValue(1);
 		qtd2.setValue(1);
@@ -988,10 +988,10 @@ public class Tela_inicial {
 		qtd2.setEnabled(false);
 		qtd3.setEnabled(false);
 		qtd4.setEnabled(false);
-		btnbloq1.setIcon(new ImageIcon("src/img/cadeado.png"));
-		btnbloq2.setIcon(new ImageIcon("src/img/cadeado.png"));
-		btnbloq3.setIcon(new ImageIcon("src/img/cadeado.png"));
-		btnbloq4.setIcon(new ImageIcon("src/img/cadeado.png"));
+		btnbloq1.setIcon(new ImageIcon("src/img/cadeado-fechado.png"));
+		btnbloq2.setIcon(new ImageIcon("src/img/cadeado-fechado.png"));
+		btnbloq3.setIcon(new ImageIcon("src/img/cadeado-fechado.png"));
+		btnbloq4.setIcon(new ImageIcon("src/img/cadeado-fechado.png"));
 		textField_1.setText("Desbloquei para digitar");
 		textField_3.setText("Desbloquei para digitar");
 		textField_5.setText("Desbloquei para digitar");
@@ -1058,7 +1058,7 @@ public class Tela_inicial {
 				|| lblcodbarras.getText().equals("Não cadastrado") || textField.getText().equals("Não cadastrado")
 				|| textField_2.getText().equals("Não cadastrado") || textField_4.getText().equals("Não cadastrado")
 				|| textField_6.getText().equals("Não cadastrado")
-				|| lblNomeRequisitante.getText().equals("Não cadastrado") || textaplicacao.getText().equals("")) {
+				|| lblNomeRequisitante.getText().equals("Não cadastrado") || textaplicacao.getSelectedItem().equals("-Selecione-")) {
 			JOptionPane.showMessageDialog(null, "Preencha corretamente");
 			return;
 		} else {
@@ -1070,7 +1070,7 @@ public class Tela_inicial {
 				String qt1 = qtd.getValue().toString();
 				String codbarrassku = codbarrasOUsku.getText(); // codigo do item
 				String barrasku = lblcodbarras.getText(); // nome do item
-				String app = textaplicacao.getText();
+				Object app = textaplicacao.getSelectedItem();
 				Date dataAtual = new Date();
 				// Formata a data para o formato 'yyyy-MM-dd'
 				SimpleDateFormat formatadorMySQL = new SimpleDateFormat("yyyy-MM-dd");
@@ -1089,7 +1089,7 @@ public class Tela_inicial {
 				String qt2 = qtd1.getValue().toString();
 				String codbarrassku1 = textField_1.getText(); // codigo do item
 				String barrasku1 = textField.getText(); // nome do item
-				String app = textaplicacao.getText();
+				Object app = textaplicacao.getSelectedItem();
 				Date dataAtual = new Date();
 				// Formata a data para o formato 'yyyy-MM-dd'
 				SimpleDateFormat formatadorMySQL = new SimpleDateFormat("yyyy-MM-dd");
@@ -1111,7 +1111,7 @@ public class Tela_inicial {
 				String qt3 = qtd2.getValue().toString();
 				String codbarrassku2 = textField_3.getText(); // codigo do item
 				String barrasku2 = textField_2.getText(); // nome do item
-				String app = textaplicacao.getText();
+				Object app = textaplicacao.getSelectedItem();
 				Date dataAtual = new Date();
 				// Formata a data para o formato 'yyyy-MM-dd'
 				SimpleDateFormat formatadorMySQL = new SimpleDateFormat("yyyy-MM-dd");
@@ -1132,7 +1132,7 @@ public class Tela_inicial {
 				String qt4 = qtd3.getValue().toString();
 				String codbarrassku3 = textField_5.getText(); // codigo do item
 				String barrasku3 = textField_4.getText(); // nome do item
-				String app = textaplicacao.getText();
+				Object app = textaplicacao.getSelectedItem();
 				Date dataAtual = new Date();
 				// Formata a data para o formato 'yyyy-MM-dd'
 				SimpleDateFormat formatadorMySQL = new SimpleDateFormat("yyyy-MM-dd");
@@ -1153,7 +1153,7 @@ public class Tela_inicial {
 				String qt5 = qtd4.getValue().toString();
 				String codbarrassku4 = textField_7.getText(); // codigo do item
 				String barrasku4 = textField_6.getText(); // nome do item
-				String app = textaplicacao.getText();
+				Object app = textaplicacao.getSelectedItem();
 				Date dataAtual = new Date();
 				// Formata a data para o formato 'yyyy-MM-dd'
 				SimpleDateFormat formatadorMySQL = new SimpleDateFormat("yyyy-MM-dd");
