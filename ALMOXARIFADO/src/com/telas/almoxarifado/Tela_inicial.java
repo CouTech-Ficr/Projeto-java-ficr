@@ -10,6 +10,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -86,11 +93,31 @@ public class Tela_inicial {
 	private JButton btnsair;
 	private String copy = "JeanLM TI ©";
 	private JLabel lblNewLabel_2_1;
+	private static final String LOCK_FILE_NAME = "app.lock";
+	private static Path lockFilePath;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		try {
+			lockFilePath = FileSystems.getDefault().getPath(LOCK_FILE_NAME);
+
+			if (tryLock()) {
+				// O aplicativo pode continuar a ser executado
+				System.out.println("Aplicativo iniciado com sucesso.");
+				// Seu código principal aqui...
+			} else {
+				// Uma instância do aplicativo já está em execução
+				JOptionPane.showMessageDialog(null, "Uma instância do aplicativo já está em execução!", "ATENÇÃO",
+						JOptionPane.WARNING_MESSAGE);
+				System.err.println("Uma instância do aplicativo já está em execução.");
+				System.exit(1);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -102,6 +129,7 @@ public class Tela_inicial {
 				}
 			}
 		});
+		releaseLock();
 	}
 
 	/**
@@ -115,6 +143,7 @@ public class Tela_inicial {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+
 					Tela_inicial window = new Tela_inicial(nomeUsuario, matricula);
 					window.frmTelaInicial.setVisible(true);
 				} catch (Exception e) {
@@ -130,8 +159,31 @@ public class Tela_inicial {
 	 * @param nomeUsuario
 	 */
 	private void initialize(String nomeUsuario, String matricula) {
-
 		frmTelaInicial = new JFrame();
+		frmTelaInicial.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				try (Connection connection = DB_Connection.get_connection()) {
+
+					switch (JOptionPane.showConfirmDialog(null, "Deseja sair ?", "Desconecta-se",
+							JOptionPane.YES_NO_OPTION)) {
+					case 0:
+						// Registra o logoff ao clicar em "Sair"
+						HistoricoLoginDAO.registrarLogoff(connection, matricula);
+						// Fecha a janela
+						frmTelaInicial.dispose();
+
+					case 1:
+						return;
+
+					}
+
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		});
+
 		frmTelaInicial.setBackground(Color.WHITE);
 		frmTelaInicial.setResizable(false);
 		frmTelaInicial.setTitle("Tela Inicial");
@@ -855,7 +907,9 @@ public class Tela_inicial {
 		frmTelaInicial.getContentPane().add(lblaplicação);
 
 		textaplicacao = new JComboBox();
-		textaplicacao.setModel(new DefaultComboBoxModel(new String[] {"-Selecione-", "Producao", "T.I", "Area Critica", "Hotelaria", "Hospitalar", "Cliente  Hospital", "Cliente  Hotel", "Expedicao", "Logistica", "Administrativo", "Seguranca do Trabalho", "RH", "Superintendencia"}));
+		textaplicacao.setModel(new DefaultComboBoxModel(new String[] { "-Selecione-", "Producao", "T.I", "Area Critica",
+				"Hotelaria", "Hospitalar", "Cliente  Hospital", "Cliente  Hotel", "Expedicao", "Logistica",
+				"Administrativo", "Seguranca do Trabalho", "RH", "Superintendencia" }));
 		textaplicacao.setBackground(Color.WHITE);
 		textaplicacao.setFont(new Font("Microsoft YaHei", Font.PLAIN, 15));
 		textaplicacao.setBounds(401, 100, 197, 42);
@@ -1058,7 +1112,8 @@ public class Tela_inicial {
 				|| lblcodbarras.getText().equals("Não cadastrado") || textField.getText().equals("Não cadastrado")
 				|| textField_2.getText().equals("Não cadastrado") || textField_4.getText().equals("Não cadastrado")
 				|| textField_6.getText().equals("Não cadastrado")
-				|| lblNomeRequisitante.getText().equals("Não cadastrado") || textaplicacao.getSelectedItem().equals("-Selecione-")) {
+				|| lblNomeRequisitante.getText().equals("Não cadastrado")
+				|| textaplicacao.getSelectedItem().equals("-Selecione-")) {
 			JOptionPane.showMessageDialog(null, "Preencha corretamente");
 			return;
 		} else {
@@ -1175,4 +1230,20 @@ public class Tela_inicial {
 	private void f7limpar() {
 		apagar();
 	}
+	 private static boolean tryLock() throws IOException {
+	        try {
+	            Files.createFile(lockFilePath);
+	            return true;
+	        } catch (FileAlreadyExistsException e) {
+	            return false;
+	        }
+	    }
+
+	    private static void releaseLock() {
+	        try {
+	            Files.deleteIfExists(lockFilePath);
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	    }
 }

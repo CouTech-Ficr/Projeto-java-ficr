@@ -9,6 +9,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -42,10 +47,30 @@ public class Tela_Login_Inicial extends JFrame {
 	private JLabel lblNewLabel_5;
 	private JPanel panel_1;
 	private String copy = "JeanLM TI ©";
+    private static final String LOCK_FILE_NAME = "app.lock";
+    private static Path lockFilePath;
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		try {
+            lockFilePath = FileSystems.getDefault().getPath(LOCK_FILE_NAME);
+
+            if (tryLock()) {
+                // O aplicativo pode continuar a ser executado
+                System.out.println("Aplicativo iniciado com sucesso.");
+                // Seu código principal aqui...
+            } else {
+                // Uma instância do aplicativo já está em execução
+            	JOptionPane.showMessageDialog(null, "Uma instância do aplicativo já está em execução!", "ATENÇÃO",
+						JOptionPane.WARNING_MESSAGE);
+                System.err.println("Uma instância do aplicativo já está em execução.");
+                System.exit(1);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -56,6 +81,7 @@ public class Tela_Login_Inicial extends JFrame {
 				}
 			}
 		});
+		releaseLock();
 	}
 
 	/**
@@ -254,4 +280,20 @@ public class Tela_Login_Inicial extends JFrame {
 	public void initComplementos() {
 		this.setLocationRelativeTo(null);
 	}
+	 private static boolean tryLock() throws IOException {
+	        try {
+	            Files.createFile(lockFilePath);
+	            return true;
+	        } catch (FileAlreadyExistsException e) {
+	            return false;
+	        }
+	    }
+
+	    private static void releaseLock() {
+	        try {
+	            Files.deleteIfExists(lockFilePath);
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	    }
 }

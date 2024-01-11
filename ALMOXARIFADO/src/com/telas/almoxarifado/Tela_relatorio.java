@@ -15,6 +15,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.ParseException;
 
 import javax.swing.DefaultComboBoxModel;
@@ -56,12 +60,31 @@ public class Tela_relatorio extends JFrame {
 	private JButton btnExportar;
 	private JTextField filtroData;
 	private JTextField filtroData_1;
-
+	private static final String LOCK_FILE_NAME = "app.lock";
+	private static Path lockFilePath;
 	
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		try {
+			lockFilePath = FileSystems.getDefault().getPath(LOCK_FILE_NAME);
+
+			if (tryLock()) {
+				// O aplicativo pode continuar a ser executado
+				System.out.println("Aplicativo iniciado com sucesso.");
+				// Seu código principal aqui...
+			} else {
+				// Uma instância do aplicativo já está em execução
+				JOptionPane.showMessageDialog(null, "Uma instância do aplicativo já está em execução!", "ATENÇÃO",
+						JOptionPane.WARNING_MESSAGE);
+				System.err.println("Uma instância do aplicativo já está em execução.");
+				System.exit(1);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -72,6 +95,7 @@ public class Tela_relatorio extends JFrame {
 				}
 			}
 		});
+		releaseLock();
 	}
 
 	public void inicializarTela() {
@@ -348,6 +372,22 @@ public class Tela_relatorio extends JFrame {
 	            return "\"" + value.replace("\"", "\"\"") + "\"";
 	        } else {
 	            return value;
+	        }
+	    }
+	    private static boolean tryLock() throws IOException {
+	        try {
+	            Files.createFile(lockFilePath);
+	            return true;
+	        } catch (FileAlreadyExistsException e) {
+	            return false;
+	        }
+	    }
+
+	    private static void releaseLock() {
+	        try {
+	            Files.deleteIfExists(lockFilePath);
+	        } catch (IOException e) {
+	            e.printStackTrace();
 	        }
 	    }
 }
