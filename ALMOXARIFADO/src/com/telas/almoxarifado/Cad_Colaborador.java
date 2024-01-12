@@ -302,7 +302,7 @@ public class Cad_Colaborador extends JFrame {
 	    if (index >= 0) {
 	         String matricula = requisitantes.getValueAt(index, 0).toString(); // Índice 0 para "id"
 	        String primarykey = "matricula = " + matricula;
-	        Data.deletarDadosRequisitantes("requisitantes",matricula);
+	        Data.deletarDadosRequisitantes("requisitantes",primarykey);
 	       
 	    
 	    }

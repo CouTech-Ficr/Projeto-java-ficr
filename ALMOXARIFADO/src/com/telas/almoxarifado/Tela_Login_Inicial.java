@@ -65,11 +65,11 @@ public class Tela_Login_Inicial extends JFrame {
             	JOptionPane.showMessageDialog(null, "Uma instância do aplicativo já está em execução!", "ATENÇÃO",
 						JOptionPane.WARNING_MESSAGE);
                 System.err.println("Uma instância do aplicativo já está em execução.");
-                System.exit(1);
+                
             }
         } catch (IOException e) {
             e.printStackTrace();
-            System.exit(1);
+     
         }
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {

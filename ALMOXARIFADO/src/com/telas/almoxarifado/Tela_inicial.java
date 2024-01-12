@@ -93,13 +93,34 @@ public class Tela_inicial {
 	private JButton btnsair;
 	private String copy = "JeanLM TI ©";
 	private JLabel lblNewLabel_2_1;
+	private String matricula;
 	private static final String LOCK_FILE_NAME = "app.lock";
 	private static Path lockFilePath;
+
+	public Tela_inicial(String nomeUsuario, String matricula) {
+		initialize(nomeUsuario, matricula);
+	}
+
+	public void inicializarTela(String nomeUsuario, String matricula) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+
+					Tela_inicial window = new Tela_inicial(nomeUsuario, matricula);
+					window.frmTelaInicial.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 
 	/**
 	 * Launch the application.
 	 */
+
 	public static void main(String[] args) {
+
 		try {
 			lockFilePath = FileSystems.getDefault().getPath(LOCK_FILE_NAME);
 
@@ -133,35 +154,14 @@ public class Tela_inicial {
 	}
 
 	/**
-	 * Create the application.
-	 */
-	public Tela_inicial(String nomeUsuario, String matricula) {
-		initialize(nomeUsuario, matricula);
-	}
-
-	public void inicializarTela(String nomeUsuario, String matricula) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-
-					Tela_inicial window = new Tela_inicial(nomeUsuario, matricula);
-					window.frmTelaInicial.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Initialize the contents of the frame.
 	 * 
 	 * @param nomeUsuario
 	 */
 	private void initialize(String nomeUsuario, String matricula) {
 		frmTelaInicial = new JFrame();
+		frmTelaInicial.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frmTelaInicial.addWindowListener(new WindowAdapter() {
-			@Override
 			public void windowClosing(WindowEvent e) {
 				try (Connection connection = DB_Connection.get_connection()) {
 
@@ -172,10 +172,10 @@ public class Tela_inicial {
 						HistoricoLoginDAO.registrarLogoff(connection, matricula);
 						// Fecha a janela
 						frmTelaInicial.dispose();
+						frmTelaInicial.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 					case 1:
-						return;
-
+						break;
 					}
 
 				} catch (SQLException ex) {
@@ -183,14 +183,13 @@ public class Tela_inicial {
 				}
 			}
 		});
-
 		frmTelaInicial.setBackground(Color.WHITE);
 		frmTelaInicial.setResizable(false);
 		frmTelaInicial.setTitle("Tela Inicial");
 		frmTelaInicial.setOpacity(1.0f);
 		frmTelaInicial.setFont(new Font("Verdana", Font.PLAIN, 15));
 		frmTelaInicial.getContentPane().setBackground(SystemColor.window);
-		frmTelaInicial.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 		frmTelaInicial.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
 		cod_nome = new JTextField("");
@@ -907,9 +906,8 @@ public class Tela_inicial {
 		frmTelaInicial.getContentPane().add(lblaplicação);
 
 		textaplicacao = new JComboBox();
-		textaplicacao.setModel(new DefaultComboBoxModel(new String[] { "-Selecione-", "Producao", "T.I", "Area Critica",
-				"Hotelaria", "Hospitalar", "Cliente  Hospital", "Cliente  Hotel", "Expedicao", "Logistica",
-				"Administrativo", "Seguranca do Trabalho", "RH", "Superintendencia" }));
+		textaplicacao.setEditable(true);
+		textaplicacao.setModel(new DefaultComboBoxModel(new String[] {"", "Producao - Calandra 1", "Producao - Calandra 2", "Producao - Calandra 3", "Hotel - Calandra 1", "T.I", "Area Critica", "Hotelaria", "Hospitalar", "Cliente  Hospital", "Cliente  Hotel", "Expedicao", "Logistica", "Administrativo", "Seguranca do Trabalho", "RH", "Superintendencia"}));
 		textaplicacao.setBackground(Color.WHITE);
 		textaplicacao.setFont(new Font("Microsoft YaHei", Font.PLAIN, 15));
 		textaplicacao.setBounds(401, 100, 197, 42);
@@ -1015,7 +1013,7 @@ public class Tela_inicial {
 		cod_nome.setText("");
 		codbarrasOUsku.setText("");
 		tipo.setSelectedItem("(Nenhum)");
-		textaplicacao.setSelectedItem("-Selecione-");
+		textaplicacao.setSelectedItem("");
 		qtd.setValue(1);
 		qtd1.setValue(1);
 		qtd2.setValue(1);
@@ -1113,7 +1111,7 @@ public class Tela_inicial {
 				|| textField_2.getText().equals("Não cadastrado") || textField_4.getText().equals("Não cadastrado")
 				|| textField_6.getText().equals("Não cadastrado")
 				|| lblNomeRequisitante.getText().equals("Não cadastrado")
-				|| textaplicacao.getSelectedItem().equals("-Selecione-")) {
+				|| textaplicacao.getSelectedItem().equals("")) {
 			JOptionPane.showMessageDialog(null, "Preencha corretamente");
 			return;
 		} else {
@@ -1230,20 +1228,22 @@ public class Tela_inicial {
 	private void f7limpar() {
 		apagar();
 	}
-	 private static boolean tryLock() throws IOException {
-	        try {
-	            Files.createFile(lockFilePath);
-	            return true;
-	        } catch (FileAlreadyExistsException e) {
-	            return false;
-	        }
-	    }
 
-	    private static void releaseLock() {
-	        try {
-	            Files.deleteIfExists(lockFilePath);
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
-	    }
+	private static boolean tryLock() throws IOException {
+		try {
+			Files.createFile(lockFilePath);
+			return true;
+		} catch (FileAlreadyExistsException e) {
+			return false;
+		}
+	}
+
+	private static void releaseLock() {
+		try {
+			Files.deleteIfExists(lockFilePath);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 }

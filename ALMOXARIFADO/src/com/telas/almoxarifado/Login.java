@@ -47,6 +47,9 @@ public class Login extends JFrame {
 				try {
 					Login frame = new Login();
 					frame.setVisible(true);
+					new Login2().dispose();
+					new Login3().dispose();
+					new Login4().dispose();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -82,7 +85,7 @@ public class Login extends JFrame {
 		login.setColumns(10);
 
 		senha = new JPasswordField();
-		senha.setFont(new Font("Dialog", Font.PLAIN, 17));
+		senha.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 13));
 		senha.setEchoChar('\u25cf');
 		senha.addKeyListener(new KeyAdapter() {
 
@@ -103,7 +106,7 @@ public class Login extends JFrame {
 
 						} else {
 							// Autenticação falhou
-							JOptionPane.showMessageDialog(null, "Matrícula ou senha inválidas");
+							JOptionPane.showMessageDialog(null,"Matrícula ou senha inválidas","ATENÇÃO",JOptionPane.WARNING_MESSAGE);
 						}
 
 						// Limpar o array de caracteres da senha após o uso

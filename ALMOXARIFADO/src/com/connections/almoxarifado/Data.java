@@ -127,7 +127,7 @@ public class Data {
 	}
 	
 	public static void deletarDadosRequisitantes(String tabela, String matricula) {
-		String sql = "DELETE FROM `" + tabela + "` WHERE " + matricula;
+		String sql = "DELETE FROM `" + tabela  + "` WHERE " + matricula;
 		
 	    try (Connection connection = new DB_Connection().get_connection();
 	         PreparedStatement statement = connection.prepareStatement(sql)) {
