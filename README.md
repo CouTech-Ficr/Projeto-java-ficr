@@ -13,8 +13,8 @@ Desenvolvemos um software que simplifica o processo de entrada e saída de mater
 O software foi desenvolvido usando Java, uma linguagem de programação amplamente utilizada que oferece robustez e portabilidade. Para a interface do usuário, escolhemos Swing, uma biblioteca gráfica para Java que permite a criação de interfaces gráficas ricas e responsivas. Para o gerenciamento de dados, utilizamos MySQL, um sistema de gerenciamento de banco de dados relacional de código aberto que oferece desempenho, confiabilidade e facilidade de uso.
 
 ## Como utilizar o software? 
-## Baixe o EER do banco de dados e insira os dados para um bom funcionamento
-## Não esqueça de alterar o local do banco de dados na classe DB_connection.
+### Baixe o EER do banco de dados e insira os dados para um bom funcionamento.
+### Não esqueça de alterar o local do banco de dados na classe DB_connection.
 ### Tela inicial
 1. **Aplicação**: O usuário irá escolher para qual setor o item sairá/entrará, por exemplo: "administrativo"
    <img src="https://github.com/CouTech-Ficr/Projeto-java-ficr/assets/122830909/d8f20436-cd94-4780-966f-634a76e79eb3" alt="image" width="130"/>
